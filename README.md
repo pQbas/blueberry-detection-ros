@@ -12,3 +12,16 @@
 * ¿En los enfoques probabilisticos, la detección de objetos mejora al considerar la confianza del modelo con respecto a las predicciones que realiza?
 * ¿Cómo lograr una mejor detección de objetos pequeños como son los arandanos modificando la arquitectura de la red neuronal empleada?
 * ¿Es posible generar datasets mediante el uso de modelos generativos condicionados de tal forma que sea posible generar datasets de deteccion de objetos?
+
+# Steps to run this project
+
+Se utiliza para poder ejecutar el modelo de detección y conteo, ejecutar `roscore` y algun video rosbag del robot antes de ejecutar la siguiente linea.
+
+```bash
+$ rosrun blueberry-detection-ros detection-ros.py
+```
+
+Se utiliza para reiniciar la cuenta de los arandanos:
+```bash
+$ rosrun blueberry-detection-ros reset-count.py
+```
