@@ -1,63 +1,37 @@
 #!/usr/bin/env python3
 import sys
 sys.path.append('/home/pqbas/miniconda3/envs/dl/lib/python3.8/site-packages')
-sys.path.append('/home/pqbas/catkin_ws/src/blueberry/src/detection')
-sys.path.append('/home/pqbas/catkin_ws/src/blueberry/src/detection/object_detection_models/yolov5')
+sys.path.append('/home/pqbas/catkin_ws/src/blueberry-detection-ros/src/detection')
+sys.path.append('/home/pqbas/catkin_ws/src/blueberry-detection-ros/src/detection/object_detection_models/yolov5')
+sys.path.append('/home/pqbas/catkin_ws/src/blueberry-detection-ros/src')
 
 import rospy
+
 from std_msgs.msg import String
 from sensor_msgs.msg import Imu
 from sensor_msgs.msg import Image, CompressedImage
-from cv_bridge import CvBridge, CvBridgeError
 from vision_msgs.msg import Detection2D, BoundingBox2D, ObjectHypothesisWithPose, Detection2DArray
 from geometry_msgs.msg import Pose2D, PoseWithCovariance, Pose
-import rospy
-import pyzed.sl as sl
+from cv_bridge import CvBridge, CvBridgeError
+
 import cv2
-import numpy as np
 import torch
+import numpy as np
+import pyzed.sl as sl
+
 from object_detection_models.yolo5 import Yolo5
 from object_detection_models.yolo8 import Yolo8
-from callbacks import CompresedImageCallBack, ImageCallBack
-from common_functions import write_text
+from classes.ros_classes import ros_suscriber
+from utils_.conversion_utils import msg2CompresedImage, msg2Image
+from utils_.image_processing_utils import draw_line, crop_center_square, write_text
 
 ARANDANOS_TOTAL = 0
 ARANDANOS_SUMA = 0
 ARANDANOS_DETECT = 0
 ARANDANOS_CUENTA = 0
-TRACKING = False
+TRACKING = True
 LIST_0 = []
 LIST_1 = []
-
-
-def draw_line(image, position, orientation):
-
-    h,w,c = image.shape
-    color = (255,0,0)
-    thickness = 2
-    
-    if orientation == 'vertical':
-        start_point = (position[0],0)
-        end_point = (position[0], h)
-
-    elif orientation == 'horizontal':
-        start_point = (0, position[1])
-        end_point = (w, position[1])
-
-    image = cv2.line(image, start_point, end_point, color, thickness)
-    return image
-
-
-def crop_center_square(image):
-    h, w, _ = image.shape
-    size = min(h, w)
-    x_start = (w - size) // 2
-    x_end = x_start + size
-    y_start = (h - size) // 2
-    y_end = y_start + size
-    cropped = image[y_start:y_end, x_start:x_end]
-    return cropped
-
 
 def callback(msg):
     global n_image
@@ -70,7 +44,7 @@ def callback(msg):
     img0 = None
     n_arandanos = 0
 
-    img0 = CompresedImageCallBack(msg)  #img0 = ImageCallBack(msg)
+    img0 = msg2CompresedImage(msg)  #img0 = ImageCallBack(msg)
     #img0 = cv2.cvtColor(img0, cv2.COLOR_BGR2RGB)
     if img0 is not None:
         img0 = crop_center_square(img0)
@@ -127,61 +101,55 @@ def callback(msg):
     
     n_image += 1
     img0 = cv2.resize(img0, (1000, 1000))
+    
     #cv2.imwrite(f'/home/pqbas/catkin_ws/src/blueberry/src/detection/gallery/danper_29Sep23/img{n_image}.png', img0)
        #img0 = cv2.cvtColor(img0, cv2.COLOR_BGR2RGB)
         #img0 = np.array([img0[:,:,2], img0[:,:,1], img0[:,:,0]])
         #print(img0.shape)
-    
- 
     # to show the images
     cv2.imshow('Image', img0)
     cv2.waitKey(1)
     return
 
+
+def callback_reset(msg):
+    global LIST_1, LIST_0
+    LIST_1 = []
+    LIST_0 = []
+    rospy.loginfo(f"Blueberry counting has been ressetted!!!")
+    return
+
+
 if __name__ == '__main__':
-    # A set of things that are important
     bridge = CvBridge()
     n_image = 0
     img0 = None
     model = 'YOLOV8'
     
-    # TOPIC_NAME, NODE_NAME variables, important.
-    TOPIC_NAME = '/zed2/zed_node/left_raw/image_raw_color/compressed'#'/zed2/zed_node/right/image_rect_color/compressed' #'/zed2i/zed_node/right/image_rect_color/compressed' #  
-    #TOPIC_NAME = '/zed2i/zed_node/rgb_raw/image_raw_color' #
+    TOPIC_NAME = '/zed2/zed_node/left_raw/image_raw_color/compressed' 
     NODE_NAME = 'detection_node'
 
-    # Defining the object detector
+
     if model == 'YOLOV5':
         detector = Yolo5(weights= '/home/pqbas/catkin_ws/src/blueberry/src/detection/weights/experiment_7/best.pt', #'./yolov5s.pt'
                         data= '', #'/home/pqbas/catkin_ws/src/blueberry/src/detection/weights/experiment_5/custom.yaml', 
-                        device='cuda:0')
-    
+                        device='cuda:0')    
     elif model == 'YOLOV8':
         detector = Yolo8(weights='/home/pqbas/catkin_ws/src/blueberry/src/detection/weights/22Sep23/yolov8m_best.pt',
                          device='cuda:0')
     else:
         sys.exit(f"Model not founded")
+
     try:
         #pub = rospy.Publisher("bbox", Detection2DArray, queue_size=1) --> This is the publisher
-        rospy.init_node(NODE_NAME, anonymous=True) # Node intialization with {NODE_NAME}
+        rospy.init_node(NODE_NAME, anonymous=True)
         count_pub = rospy.Publisher('/detection_output/count', String, queue_size=1)
         image_pub = rospy.Publisher('/detection_output/image_topic', Image, queue_size=1)
+        
+        ros_suscriber('/zed2/zed_node/left_raw/image_raw_color/compressed', CompressedImage, callback)
+        ros_suscriber('chatter', String, callback_reset)
+        
+        rospy.spin()
 
-        #rospy.Subscriber(TOPIC_NAME, Image, callback)
-        rospy.Subscriber(TOPIC_NAME, CompressedImage, callback)  # Suscription to ZED2i camera
-        rospy.spin() # I don't know what does it, but I know that is necesary
     except rospy.ROSInterruptException:
         pass
-    
-    # object_detected = Detection2D()
-    # We still don't use this tracker...... 
-    # I think we need to improve object detection use more trackers to perform a best comparison
-    # Indeed, the true is that the data obtained from DAMPER is what matters, the rest is like a
-    # artifacts to perform some task
-    #tracker = DeepOCSORT(
-    #    model_weights=Path('/home/pqbas/catkin_ws/src/blueberry/src/detection/weights/mobilenetv2_x1_4_dukemtmcreid.pt'),  # which ReID model to use, when applicable
-    #    device='cuda:0',  # 'cpu', 'cuda:0', 'cuda:1', ... 'cuda:N'
-    #    fp16=True,  # wether to run the ReID model with half precision or not
-    #    det_thresh=0.2  # minimum valid detection confidence
-    #)
-    
