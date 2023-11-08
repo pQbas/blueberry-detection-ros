@@ -1,6 +1,7 @@
 # Todo
 * ~~Publicar el conteo de arandanos en un topico~~
 * ~~Reiniciar el número de arandanos que se cuentan~~
+* Convertir los pesos de pytorch a tensorrt
 * Realizar clasificación de los arandanos que se detectan
 * Publicar la deteccion de arandanos en un topico
 * Publicar las clases detectadas en un topic

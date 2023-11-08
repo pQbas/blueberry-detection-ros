@@ -45,56 +45,55 @@ def callback(msg):
     n_arandanos = 0
 
     img0 = msg2CompresedImage(msg)  #img0 = ImageCallBack(msg)
-    #img0 = cv2.cvtColor(img0, cv2.COLOR_BGR2RGB)
-    if img0 is not None:
-        img0 = crop_center_square(img0)
-        #img0 = cv2.cvtColor(img0, cv2.COLOR_BGR2RGB)
-        #img0 = np.array([img0[:,:,2], img0[:,:,1], img0[:,:,0]])
-        #print(img0.shape)
-        prediction = detector.predict(img0, conf_thres=0.3, enable_tracking=TRACKING)
+    if img0 is None:
+        rospy.logwarn('IMG0 is None')
+        return
         
-        
-        if prediction is not None:
-            img0 = detector.plot_prediction(img0, prediction)
-            boxes = prediction[0].boxes.xywh.cpu()
-            centers = boxes[:,:2]
-            ARANDANOS_DETECT = centers.shape[0]
-            img0 = write_text(img0, f'# Detected: {ARANDANOS_DETECT}', (50, 950))
-
-        
-        if prediction[0] is not None and prediction is not None and TRACKING == True:
-            img0 = draw_line(img0, (200, 200), 'horizontal')
-            boxes = prediction[0].boxes.xywh.cpu()
-            centers = boxes[:,:2]
-
-            if prediction[0].boxes.id is not None:
-                track_ids = prediction[0].boxes.id.int().cpu()
-                track_ids = track_ids.reshape(track_ids.shape[0], 1)
-                to_count = torch.cat((track_ids, centers),1)
-
-                set_0 = set(LIST_0)
-                set_1 = set(LIST_1)
-                for (id, x, y) in to_count:
-                    id = id.item()
-                    if y < 200:
-                        set_0.add(id)       # Adds the id if not already present                        
-                        set_1.discard(id)   # Removes the id if present
-
-                    elif id in set_0:
-                        set_1.add(id)
-                    
-                LIST_0 = list(set_0)
-                LIST_1 = list(set_1)
-
-            ARANDANOS_DETECT = centers.shape[0]
-            img0 = write_text(img0, f'# Detected: {ARANDANOS_DETECT}', (50, 950))
-            ARANDANOS_CUENTA = len(LIST_1)
-            img0 = write_text(img0, f'# Counted: {ARANDANOS_CUENTA}', (50, 1000))
-
-        # if prediction is not None:
-        #   img0 = detector.plot_prediction(img0, prediction)
-        #   img0 = draw_line(img0, (threshold, threshold), 'horizontal')
+    img0 = crop_center_square(img0)
+    prediction = detector.predict(img0, conf_thres=0.3, enable_tracking=TRACKING)
     
+    
+    if prediction is not None:
+        img0 = detector.plot_prediction(img0, prediction)
+        boxes = prediction[0].boxes.xywh.cpu()
+        centers = boxes[:,:2]
+        ARANDANOS_DETECT = centers.shape[0]
+        img0 = write_text(img0, f'# Detected: {ARANDANOS_DETECT}', (50, 950))
+
+    
+    if prediction[0] is not None and prediction is not None and TRACKING == True:
+        img0 = draw_line(img0, (200, 200), 'horizontal')
+        boxes = prediction[0].boxes.xywh.cpu()
+        centers = boxes[:,:2]
+
+        if prediction[0].boxes.id is not None:
+            track_ids = prediction[0].boxes.id.int().cpu()
+            track_ids = track_ids.reshape(track_ids.shape[0], 1)
+            to_count = torch.cat((track_ids, centers),1)
+
+            set_0 = set(LIST_0)
+            set_1 = set(LIST_1)
+            for (id, x, y) in to_count:
+                id = id.item()
+                if y < 200:
+                    set_0.add(id)       # Adds the id if not already present                        
+                    set_1.discard(id)   # Removes the id if present
+
+                elif id in set_0:
+                    set_1.add(id)
+                
+            LIST_0 = list(set_0)
+            LIST_1 = list(set_1)
+
+        ARANDANOS_DETECT = centers.shape[0]
+        img0 = write_text(img0, f'# Detected: {ARANDANOS_DETECT}', (50, 950))
+        ARANDANOS_CUENTA = len(LIST_1)
+        img0 = write_text(img0, f'# Counted: {ARANDANOS_CUENTA}', (50, 1000))
+
+    # if prediction is not None:
+    #   img0 = detector.plot_prediction(img0, prediction)
+    #   img0 = draw_line(img0, (threshold, threshold), 'horizontal')
+
     count_pub.publish(str(ARANDANOS_CUENTA))
     image_msg = bridge.cv2_to_imgmsg(img0, "bgr8")
     image_pub.publish(image_msg)
@@ -135,7 +134,7 @@ if __name__ == '__main__':
                         data= '', #'/home/pqbas/catkin_ws/src/blueberry/src/detection/weights/experiment_5/custom.yaml', 
                         device='cuda:0')    
     elif model == 'YOLOV8':
-        detector = Yolo8(weights='/home/pqbas/catkin_ws/src/blueberry/src/detection/weights/22Sep23/yolov8m_best.pt',
+        detector = Yolo8(weights='/home/pqbas/catkin_ws/src/blueberry/src/detection/weights/22Sep23/yolov8m_best.engine', #weights='/home/pqbas/catkin_ws/src/blueberry/src/detection/weights/22Sep23/yolov8m_best.pt',
                          device='cuda:0')
     else:
         sys.exit(f"Model not founded")
