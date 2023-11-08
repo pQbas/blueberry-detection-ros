@@ -1,6 +1,6 @@
 import sys
 sys.path.append('/home/pqbas/miniconda3/envs/dl/lib/python3.8/site-packages')
-sys.path.append('/home/pqbas/catkin_ws/src/blueberry/src/detection/object_detection_models/yolov5')
+sys.path.append('/home/pqbas/catkin_ws/src/blueberry-detection-ros/src/object_detection_models/yolov5')
 
 from ultralytics import YOLO
 from ultralytics.data.augment import LetterBox

@@ -1,3 +1,5 @@
+
+
 import torch
 import sys
 import matplotlib.pyplot as plt
@@ -9,16 +11,14 @@ import time
 import tkinter
 import matplotlib
 #matplotlib.use('TkAgg')
-sys.path.append('/home/pqbas/catkin_ws/src/blueberry-detection-ros/src/detection/object_detection_models')
-sys.path.append('/home/labinm-jetson/catkin_ws/src/blueberry-detection-ros/src/object_detection_models')
+sys.path.append('/home/labinm-jetson/catkin_ws/src/blueberry-object-detection/src/object_detection_models')
+sys.path.append('/home/pqbas/catkin_ws/src/blueberry-detection-ros/src/object_detection_models')
 
 #from yolov5.utils.general import scale_coords, xyxy2xywh
 from common_functions_ import scale_coords
 
-
-sys.path.append('/home/pqbas/catkin_ws/src/blueberry-detection-ros/src/detection/object_detection_models/yolov5')
-sys.path.append('/home/labinm-jetson/catkin_ws/src/blueberry-detection-ros/src/object_detection_models')
-
+sys.path.append('/home/labinm-jetson/catkin_ws/src/blueberry-detection-ros/src/object_detection_models/yolov5')
+sys.path.append('/home/pqbas/catkin_ws/src/blueberry-detection-ros/src/object_detection_models/yolov5')
 
 from yolov5.models.common import DetectMultiBackend
 from yolov5.utils.torch_utils import select_device, smart_inference_mode
