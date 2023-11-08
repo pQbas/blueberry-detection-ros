@@ -1,9 +1,18 @@
 #!/usr/bin/env python3
 import sys
+
+# my laptop
 sys.path.append('/home/pqbas/miniconda3/envs/dl/lib/python3.8/site-packages')
 sys.path.append('/home/pqbas/catkin_ws/src/blueberry-detection-ros/src/detection')
 sys.path.append('/home/pqbas/catkin_ws/src/blueberry-detection-ros/src/detection/object_detection_models/yolov5')
 sys.path.append('/home/pqbas/catkin_ws/src/blueberry-detection-ros/src')
+
+
+# labinm-jetson
+sys.path.append('/home/labinm-jetson/catkin_ws/src/blueberry-detection-ros/src/detection')
+sys.path.append('/home/labinm-jetson/pqbas/catkin_ws/src/blueberry-detection-ros/src/detection/object_detection_models/yolov5')
+sys.path.append('/home/labinm-jetson/pqbas/catkin_ws/src/blueberry-detection-ros/src')
+
 
 import rospy
 
