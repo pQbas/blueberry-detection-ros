@@ -11,7 +11,7 @@ import time
 import tkinter
 import matplotlib
 #matplotlib.use('TkAgg')
-sys.path.append('/home/labinm-jetson/catkin_ws/src/blueberry-object-detection/src/object_detection_models')
+sys.path.append('/home/labinm-jetson/catkin_ws/src/blueberry-detection-ros/src/object_detection_models')
 sys.path.append('/home/pqbas/catkin_ws/src/blueberry-detection-ros/src/object_detection_models')
 
 #from yolov5.utils.general import scale_coords, xyxy2xywh
