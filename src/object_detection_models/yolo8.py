@@ -29,27 +29,31 @@ class Yolo8:
         if results[0].boxes.data.shape[0] < 1:
             return img
         
-        img = results[0].plot(conf=False, masks=False, labels=True, font_size = 0.1)
-        return img
+        #img = results[0].plot(conf=True, masks=False, labels=True, font_size = 0.1)
+        #return img
 
-        # print(results[0].boxes.xywh[0].shape[0])
-        for i in range(results[0].boxes.xywh[0].shape[0]):
+        for i in range(results[0].boxes.xywh[:].shape[0]):
             x = results[0].boxes.xywh[i][0].item()
             y = results[0].boxes.xywh[i][1].item()
             w = results[0].boxes.xywh[i][2].item()
             h = results[0].boxes.xywh[i][3].item()
-            cv2.circle( img, 
+            #id = int(results[0].boxes.id[i].item())
+            
+            cv2.circle( img,
                         center = (int(x),int(y)), 
                         radius = int(np.sqrt((w)**2 + (h)**2)/3), 
-                        color= (255,0,0), 
+                        color= (0,0,255), 
                         thickness = 2)
+            
+            
+            #cv2.putText( img, str(id), (int(x-10),int(y+5)), cv2.FONT_HERSHEY_SIMPLEX , 0.6, (0, 255, 255), 2, cv2.LINE_AA, False) 
         return img
 
 
 if __name__ == '__main__':
     
     weights_path = "/home/pqbas/catkin_ws/src/blueberry/src/detection/weights/yolov8m_1kepochs/weights/best.pt"
-    weights_path = "yolov8n-seg.pt"
+    weights_path = "yolov8n.pt"
 
     detector = Yolo8(weights= weights_path,
                     device='cuda:0')

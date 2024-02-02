@@ -6,12 +6,12 @@ from cv_bridge import CvBridge, CvBridgeError
 def msg2Image(msg):
     try:
         bridge = CvBridge()
-        img0 = bridge.imgmsg_to_cv2(msg.data, "bgr8")
+        img0 = bridge.imgmsg_to_cv2(msg, "bgr8")
         rospy.loginfo(rospy.get_caller_id() + " Succeed: Image received" + " Size: " + str(msg.height) + "x" + str(msg.width))
         return img0
     except CvBridgeError:
         rospy.loginfo(rospy.get_caller_id() + " Error: LOL")
-        return
+        return None
     
 
 def msg2CompresedImage(msg):
@@ -21,5 +21,12 @@ def msg2CompresedImage(msg):
         return img0
     except CvBridgeError:
         rospy.loginfo(rospy.get_caller_id() + " Error: LOL")
-        return
+        return None
     
+def get_image(msg, TOPIC_NAME):
+    img = msg2CompresedImage(msg) if ('compressed' in TOPIC_NAME.split('/')) else msg2Image(msg)
+    if img is None: 
+        rospy.logwarn('IMG0 is None') 
+        return None
+    return img
+

@@ -1,2 +1,9 @@
 /src/detection/weights
 /src/weights
+records
+/records
+/src/videos
+/src/gallery
+/dataset/Blueberry2.v7i.yolov8
+/dataset
+/src/object_detection_models/*.pt
