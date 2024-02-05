@@ -2,6 +2,15 @@
 
 import cv2
 
+import numpy as np
+
+def attach_information_zone(img):
+    H,W,_= img.shape
+    black = np.ones((H,W//3), dtype=np.uint8)*100
+    grey_3_channel = cv2.cvtColor(black, cv2.COLOR_GRAY2BGR)
+    img = np.concatenate((grey_3_channel, img), axis=1)
+    return img
+
 def draw_line(image, position, orientation):
     h,w,c = image.shape
     color = (255,0,0)
@@ -30,22 +39,24 @@ def crop_center_square(image):
     return cropped
 
 
-def write_text(img, text, position):
+def write_text(img, text, position, scale_font, thick, color):
     font = cv2.FONT_HERSHEY_SIMPLEX
     org = position
-    fontScale = 2
-    color = (255, 0, 255)
-    thickness = 3
-    return cv2.putText(img, text, org, font, fontScale, color, thickness, cv2.LINE_AA)
+    fontScale = scale_font
+    color_ = color
+    thickness = thick
+    return cv2.putText(img, text, org, font, fontScale, color_, thickness, cv2.LINE_AA)
     
 import torch
 
 class counter:
-    def __init__(self):
+    def __init__(self, count_mode, threshold_track):
         self.LIST_0 = []
         self.LIST_1 = []
+        self.count_mode = count_mode
+        self.threshold_track = threshold_track
 
-    def update_count(self, prediction=None, threshold=None):
+    def update_count(self, prediction=None):
         
         if prediction[0] is not None and prediction is not None and prediction[0].boxes.shape[0] > 2:
             boxes = prediction[0].boxes.xywh.cpu()
@@ -63,9 +74,15 @@ class counter:
                 
                 for (id, x, y) in to_count:
                     id = id.item()
-                    if y < threshold:
+        
+                    if x < self.threshold_track and self.count_mode == 'horizontal':
                         set_0.add(id)       # Adds the id if not already present                        
                         set_1.discard(id)   # Removes the id if present
+
+                    if y < self.threshold_track and self.count_mode == 'vertical':    
+                        set_0.add(id)       # Adds the id if not already present                        
+                        set_1.discard(id)   # Removes the id if present
+                    
                     elif id in set_0:
                         set_1.add(id)
 
@@ -73,8 +90,15 @@ class counter:
                 self.LIST_1 = list(set_1)
     
         return
-    
+
     def get_number_counted(self):
         return {
             'counted': len(self.LIST_1)
         }
+    
+    def plot_line_threshold(self, img_pred):
+        if self.count_mode == 'vertical':
+            cv2.line(img_pred, (0,self.threshold_track), (self.threshold_track,self.threshold_track), (0,255,0), 2)
+        if self.count_mode == 'horizontal':
+            cv2.line(img_pred, (self.threshold_track,0), (self.threshold_track,self.threshold_track), (0,255,0), 2)
+        return img_pred

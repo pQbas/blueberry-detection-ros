@@ -22,13 +22,13 @@ from geometry_msgs.msg import Pose2D, PoseWithCovariance, Pose
 from cv_bridge import CvBridge, CvBridgeError
 
 import cv2
+import numpy as np
 import argparse
-
 from object_detection_models.yolo5 import Yolo5
 from object_detection_models.yolo8 import Yolo8
 from classes.ros_classes import ros_suscriber, ros_publisher
 from utils_.conversion_utils import msg2CompresedImage, msg2Image, get_image
-from utils_.image_processing_utils import draw_line, crop_center_square, write_text, counter
+from utils_.image_processing_utils import draw_line, crop_center_square, write_text, counter, attach_information_zone
 
 
 def callback(msg):
@@ -38,8 +38,17 @@ def callback(msg):
     img_pred = detector.plot_prediction(img_crop, prediction)
 
     if TRACKING_FLAG:
-        blueberry_counter.update_count(prediction, 500)
-        print(blueberry_counter.get_number_counted())
+        blueberry_counter.update_count(prediction)
+        img_pred = blueberry_counter.plot_line_threshold(img_pred)
+        
+    img_pred = attach_information_zone(img_pred)
+    write_text(img_pred, 'Detected: ', position = (20,200), scale_font=1, thick=2, color=(255,255,255))
+    write_text(img_pred, str(prediction[0].boxes.xywh.shape[0]), position = (20,300), scale_font=3, thick=2, color=(255,255,255))
+
+    if TRACKING_FLAG:
+        number_blueberries = blueberry_counter.get_number_counted()['counted']
+        write_text(img_pred, 'Counted: ', position = (20,50), scale_font=1, thick=2, color=(255,255,255))
+        write_text(img_pred, str(number_blueberries), position = (20,150), scale_font=3, thick=2, color=(255,255,255))
 
     if SHOW_IMAGE and (prediction is not None):
         cv2.imshow('Image', img_pred)
@@ -54,15 +63,13 @@ def callback_reset(msg):
     rospy.loginfo(f"Blueberry counting has been ressetted!!!")
     return
 
+
 img2msg = CvBridge()
 def callback_image_publisher(img_crop):
     image_pub.publish(img2msg.cv2_to_imgmsg(img_crop, "bgr8"))
 
 
 if __name__ == '__main__':
-
-    # rosrun blueberry-detection-ros detection-ros.py -model YOLOV5 -sub 'zed2/zed_node/right/image_rect_color/compressed' -show True -track False
-    # rosrun blueberry-detection-ros detection-ros.py -model YOLOV8 -sub 'zed2/zed_node/right/image_rect_color/compressed' -show True -track True
 
     # -------------------------------------------------------------------------------------------
     # Parser arguments: Model  
@@ -73,6 +80,8 @@ if __name__ == '__main__':
     parser.add_argument("-show", "--show_image", help = "Show image of detection")
     parser.add_argument("-sub", "--subscriber", help = "Suscriber topic, it's the source of the images")
     parser.add_argument("-track", "--tracking_flag", help = "Tracking flag is used to count blueberries")
+    parser.add_argument("-count_mode", "--count_mode", help = "Counting mode is 'Horizontal' or 'Vertical'")
+    parser.add_argument("-threshold_track", "--threshold_track", help='threshold of the tracker')
     args = parser.parse_args()
 
     if args.model:
@@ -102,7 +111,9 @@ if __name__ == '__main__':
     if (TRACKING_FLAG == True)  and (MODEL != 'YOLOV8'):   
         sys.exit("Just YoloV8 has tracking methods implemented")
     
-    blueberry_counter = counter()
+    COUNT_MODE = str(args.count_mode)
+    THRESHOLD_TRACK = int(args.threshold_track)
+    blueberry_counter = counter(count_mode = COUNT_MODE, threshold_track = THRESHOLD_TRACK)
 
     # -------------------------------------------------------------------------------------------
     # Configure nodes

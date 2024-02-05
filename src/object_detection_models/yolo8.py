@@ -69,6 +69,7 @@ if __name__ == '__main__':
         ret, img0 = cap.read()
         results0 = detector.predict(img0, enable_tracking=True)
         img0 = detector.plot_prediction(img=img0, results=results0)
+        print(results0[0].boxes.xywh.shape[0])
         cv2.imshow('awd',img0)
         cv2.waitKey(1)
 
