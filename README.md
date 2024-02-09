@@ -11,6 +11,7 @@ $ rosrun blueberry-detection-ros detection-ros.py -model YOLOV5 -sub 'zed2/zed_n
 ```bash
 $ rosbag play zed2_rosbag_2023-09-29-11-55-24.bag -l
 $ rosrun blueberry-detection-ros detection-ros.py -model YOLOV8 -sub 'zed2/zed_node/right/image_rect_color/compressed' -show True -track True -count_mode vertical
+```
 
 ```bash
 $ rosbag play zed2_rosbag_2023-09-29-11-58-00.bag -l
