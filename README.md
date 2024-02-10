@@ -5,7 +5,7 @@ Se utiliza para poder ejecutar el modelo de detección y conteo, ejecutar `rosco
 ```bash
 $ roscore
 $ rosbag play zed2_rosbag_2023-09-29-11-55-24.bag -l
-$ rosrun blueberry-detection-ros detection-ros.py -model YOLOV5 -sub 'zed2/zed_node/right/image_rect_color/compressed' -show True -track False
+$ rosrun blueberry-detection-ros detection-ros.py -model \n YOLOV5 -sub 'zed2/zed_node/right/image_rect_color/compressed' -show True -track False
 ```
 
 ```bash
@@ -25,10 +25,22 @@ $ rosrun blueberry-detection-ros reset-count.py
 ```
 
 # Todo
-* ~~Publicar el conteo de arandanos en un topico~~
-* ~~Reiniciar el número de arandanos que se cuentan~~
-* ~~Convertir los pesos de pytorch a tensorrt~~
-* Publicar la deteccion de arandanos en un topico
-* Realizar clasificación de los arandanos que se detectan
-* Publicar las clases detectadas en un topic
-* Utilizar un grafico de barras para graficar las clases que son detectadas
+- [x] ~~Publicar el conteo de arandanos en un topico~~
+- [x] ~~Reiniciar el número de arandanos que se cuentan~~
+- [x] ~~Convertir los pesos de pytorch a tensorrt~~
+- [ ] Publicar la deteccion de arandanos en un topico
+
+
+# Steps
+
+1. SSH conection:
+
+```bash
+ssh ubuntu@192.168.0.40
+password: pi123456
+ssh labinm-jetson@192.168.0.10
+password: rpgdini100
+```
+
+
+
