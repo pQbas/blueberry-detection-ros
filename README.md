@@ -6,7 +6,7 @@
 
 ```bash
 $ roscore
-$ rosbag play zed2_rosbag_2023-09-29-11-55-24.bag -l
+$ rosbag play zed2_rosbag_2023-09-29-11-55-24.bag
 $ rosrun blueberry-detection-ros detection-ros.py -model YOLOV5 \
                                                   -sub 'zed2/zed_node/right/image_rect_color/compressed' \
                                                   -show True \
@@ -18,7 +18,7 @@ $ rosrun blueberry-detection-ros detection-ros.py -model YOLOV5 \
 - Counting in vertical mode
 
 ```bash
-$ rosbag play zed2_rosbag_2023-09-29-11-55-24.bag -l
+$ rosbag play zed2_rosbag_2023-09-29-11-55-24.bag
 $ rosrun blueberry-detection-ros detection-ros.py -model YOLOV8 \
                                                   -sub 'zed2/zed_node/right/image_rect_color/compressed' \
                                                   -show True \
@@ -29,7 +29,7 @@ $ rosrun blueberry-detection-ros detection-ros.py -model YOLOV8 \
 - Counting in horizontal mode
 
 ```bash
-$ rosbag play zed2_rosbag_2023-09-29-11-58-00.bag -l
+$ rosbag play zed2_rosbag_2023-09-29-11-58-00.bag
 $ rosrun blueberry-detection-ros detection-ros.py -model YOLOV8 \
                                                   -sub 'zed2/zed_node/right/image_rect_color/compressed' \
                                                   -show True \
@@ -38,11 +38,6 @@ $ rosrun blueberry-detection-ros detection-ros.py -model YOLOV8 \
                                                   -threshold 500
 ```
 
-Se utiliza para reiniciar la cuenta de los arandanos:
-
-```bash
-$ rosrun blueberry-detection-ros reset-count.py
-```
 
 # To-do
 - [x] ~~Publicar el conteo de arandanos en un topico~~
