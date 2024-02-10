@@ -36,7 +36,7 @@ Se utiliza para reiniciar la cuenta de los arandanos:
 $ rosrun blueberry-detection-ros reset-count.py
 ```
 
-# Todo
+# To-do
 - [x] ~~Publicar el conteo de arandanos en un topico~~
 - [x] ~~Reiniciar el número de arandanos que se cuentan~~
 - [x] ~~Convertir los pesos de pytorch a tensorrt~~
