@@ -11,6 +11,8 @@ $ rosrun blueberry-detection-ros detection-ros.py -model YOLOV5 \
                                                   -track False
 ```
 
+To run the vertical mode:
+
 ```bash
 $ rosbag play zed2_rosbag_2023-09-29-11-55-24.bag -l
 $ rosrun blueberry-detection-ros detection-ros.py -model YOLOV8 \
@@ -19,6 +21,8 @@ $ rosrun blueberry-detection-ros detection-ros.py -model YOLOV8 \
                                                   -track True \
                                                   -count_mode vertical
 ```
+
+To run the horizontal mode:
 
 ```bash
 $ rosbag play zed2_rosbag_2023-09-29-11-58-00.bag -l
