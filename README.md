@@ -1,6 +1,6 @@
 # Steps to run this project
 
-Se utiliza para poder ejecutar el modelo de detección y conteo, ejecutar `roscore` y algun video rosbag del robot antes de ejecutar la siguiente linea.
+Detection with YoloV5:
 
 ```bash
 $ roscore
@@ -11,7 +11,7 @@ $ rosrun blueberry-detection-ros detection-ros.py -model YOLOV5 \
                                                   -track False
 ```
 
-To run the vertical mode:
+Counting with the vertical mode:
 
 ```bash
 $ rosbag play zed2_rosbag_2023-09-29-11-55-24.bag -l
@@ -22,7 +22,7 @@ $ rosrun blueberry-detection-ros detection-ros.py -model YOLOV8 \
                                                   -count_mode vertical
 ```
 
-To run the horizontal mode:
+Counting with the horizontal mode:
 
 ```bash
 $ rosbag play zed2_rosbag_2023-09-29-11-58-00.bag -l
