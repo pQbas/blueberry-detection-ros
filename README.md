@@ -43,7 +43,7 @@ $ rosrun blueberry-detection-ros reset-count.py
 - [ ] Publicar la deteccion de arandanos en un topico
 
 
-# Steps
+# Robot connection
 
 1. SSH conection:
 
