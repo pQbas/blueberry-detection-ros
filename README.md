@@ -1,6 +1,8 @@
 # Steps to run this project
 
-Detection with YoloV5:
+## With YoloV5
+
+- Detection
 
 ```bash
 $ roscore
@@ -11,7 +13,9 @@ $ rosrun blueberry-detection-ros detection-ros.py -model YOLOV5 \
                                                   -track False
 ```
 
-Counting with the vertical mode:
+### With YoloV8
+
+- Counting in vertical mode
 
 ```bash
 $ rosbag play zed2_rosbag_2023-09-29-11-55-24.bag -l
@@ -22,7 +26,7 @@ $ rosrun blueberry-detection-ros detection-ros.py -model YOLOV8 \
                                                   -count_mode vertical
 ```
 
-Counting with the horizontal mode:
+- Counting in horizontal mode
 
 ```bash
 $ rosbag play zed2_rosbag_2023-09-29-11-58-00.bag -l
