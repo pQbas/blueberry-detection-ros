@@ -5,7 +5,10 @@ Se utiliza para poder ejecutar el modelo de detección y conteo, ejecutar `rosco
 ```bash
 $ roscore
 $ rosbag play zed2_rosbag_2023-09-29-11-55-24.bag -l
-$ rosrun blueberry-detection-ros detection-ros.py -model \n YOLOV5 -sub 'zed2/zed_node/right/image_rect_color/compressed' -show True -track False
+$ rosrun blueberry-detection-ros detection-ros.py -model YOLOV5 \
+                                                  -sub 'zed2/zed_node/right/image_rect_color/compressed' \
+                                                  -show True \
+                                                  -track False
 ```
 
 ```bash
