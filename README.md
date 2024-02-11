@@ -44,7 +44,7 @@ $ rosrun blueberry-detection-ros detection-ros.py -model YOLOV8 \
 - [x] ~~Reiniciar el número de arandanos que se cuentan~~
 - [x] ~~Convertir los pesos de pytorch a tensorrt~~
 - [ ] Publicar la deteccion de arandanos en un topico
-- [ ] Solve: ' Inbound TCP/IP connection failed: connection from sender terminated before handshake header received. 0 bytes were received. Please check sender for additional details.'
+- [ ] Solve: ' Inbound TCP/IP connection failed: connection from sender terminated before handshake header received. 0 bytes were received. Please check sender for additional details.' (Idea: Declare `image_crop` as a global variable, in `src/detection-ros.py`)
 
 
 # Detection Launch
