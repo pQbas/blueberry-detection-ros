@@ -132,7 +132,7 @@ if __name__ == '__main__':
         # Image from zed2 camera
         if 'compressed' in TOPIC_NAME.split('/'):
             ros_suscriber(TOPIC_NAME, CompressedImage, callback)
-        elif ~('compressed' in TOPIC_NAME.split('/')) == True:
+        elif ~('compressed' in TOPIC_NAME.split('/')):
             ros_suscriber(TOPIC_NAME, Image, callback)
         else:
             sys.exit(f"TOPIC_NAME not founded")
