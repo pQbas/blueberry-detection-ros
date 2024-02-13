@@ -53,6 +53,8 @@ def callback(msg):
     if SHOW_IMAGE and (prediction is not None):
         cv2.imshow('Image', img_pred)
         cv2.waitKey(1)
+
+    image_pub.publish(img2msg.cv2_to_imgmsg(img_crop, "bgr8"))
     return
 
 
