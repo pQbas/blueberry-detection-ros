@@ -7,3 +7,4 @@ records
 /dataset/Blueberry2.v7i.yolov8
 /dataset
 /src/object_detection_models/*.pt
+.mypy_cache

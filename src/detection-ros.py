@@ -42,13 +42,13 @@ def callback(msg):
         img_pred = blueberry_counter.plot_line_threshold(img_pred)
         
     img_pred = attach_information_zone(img_pred)
-    write_text(img_pred, 'Detected: ', position = (20,200), scale_font=1, thick=2, color=(255,255,255))
-    write_text(img_pred, str(prediction[0].boxes.xywh.shape[0]), position = (20,300), scale_font=3, thick=2, color=(255,255,255))
+    write_text(img_pred, 'Detected: ', position=(20, 200), scale_font=1, thick=2, color=(255, 255, 255))
+    write_text(img_pred, str(prediction[0].boxes.xywh.shape[0]), position=(20, 300), scale_font=3, thick=2, color=(255, 255, 255))
 
     if TRACKING_FLAG:
         number_blueberries = blueberry_counter.get_number_counted()['counted']
-        write_text(img_pred, 'Counted: ', position = (20,50), scale_font=1, thick=2, color=(255,255,255))
-        write_text(img_pred, str(number_blueberries), position = (20,150), scale_font=3, thick=2, color=(255,255,255))
+        write_text(img_pred, 'Counted: ', position=(20, 50), scale_font=1, thick=2, color=(255, 255, 255))
+        write_text(img_pred, str(number_blueberries), position=(20, 150), scale_font=3, thick=2, color=(255, 255, 255))
 
     if SHOW_IMAGE and (prediction is not None):
         cv2.imshow('Image', img_pred)
@@ -103,8 +103,8 @@ if __name__ == '__main__':
     TRACKING_FLAG = eval(args.tracking_flag)
 
     if MODEL == 'YOLOV5':
-        detector = Yolo5(weights= '/home/pqbas/catkin_ws/src/blueberry/src/detection/weights/experiment_7/best.pt',
-                        data= '',
+        detector = Yolo5(weights='/home/pqbas/catkin_ws/src/blueberry/src/detection/weights/experiment_7/best.pt',
+                        data='',
                         device='cuda:0')
     elif MODEL == 'YOLOV8':
         detector = Yolo8(weights='/home/pqbas/catkin_ws/src/blueberry/src/detection/weights/22Sep23/yolov8m_best.pt',
@@ -115,7 +115,7 @@ if __name__ == '__main__':
     
     COUNT_MODE = str(args.count_mode)
     THRESHOLD_TRACK = int(args.threshold_track)
-    blueberry_counter = counter(count_mode = COUNT_MODE, threshold_track = THRESHOLD_TRACK)
+    blueberry_counter = counter(count_mode=COUNT_MODE, threshold_track=THRESHOLD_TRACK)
 
     # -------------------------------------------------------------------------------------------
     # Configure nodes
@@ -125,7 +125,7 @@ if __name__ == '__main__':
 
     try:
         rospy.init_node(NODE_NAME, anonymous=True)
-                
+
         ''' -------------------- Publishers ----------------------------'''
         # Publish the detections
         image_pub = ros_publisher('/detection_output/image_topic', Image, queue_size=1, callback_function=callback_image_publisher) 
@@ -138,7 +138,7 @@ if __name__ == '__main__':
             ros_suscriber(TOPIC_NAME, Image, callback)
         else:
             sys.exit(f"TOPIC_NAME not founded")
-
+        
         # Reset signal of count
         ros_suscriber('chatter', String, callback_reset)
 

@@ -22,16 +22,16 @@ class ros_publisher:
         self.topic_name = topic_name
         
         if callback_function == None:
-            self.subscriber = rospy.Publisher(self.topic_name, data_type, self.callback)
+            self.publisher = rospy.Publisher(self.topic_name, data_type, self.callback)
         else:
-            self.subscriber = rospy.Publisher(self.topic_name, data_type, callback_function)
+            self.publisher = rospy.Publisher(self.topic_name, data_type, callback_function,  queue_size=1)
 
             
     def callback(self, data):
         rospy.loginfo(f"I heard on {self.topic_name}: {data.data}")
 
     def publish(self, data):
-        rospy.publish(data)
+        self.publisher.publish(data)
         
 
 

@@ -18,18 +18,21 @@ $ rosrun blueberry-detection-ros detection-ros.py -model YOLOV5 \
 - Counting in vertical mode
 
 ```bash
-$ rosbag play zed2_rosbag_2023-09-29-11-55-24.bag
+$ roscore
+$ rosbag play records/29sepdanper/zed2_rosbag_2023-09-29-11-55-24.bag
 $ rosrun blueberry-detection-ros detection-ros.py -model YOLOV8 \
                                                   -sub 'zed2/zed_node/right/image_rect_color/compressed' \
                                                   -show True \
                                                   -track True \
-                                                  -count_mode vertical
+                                                  -count_mode vertical \
+                                                  -threshold 500
 ```
 
 - Counting in horizontal mode
 
 ```bash
-$ rosbag play zed2_rosbag_2023-09-29-11-58-00.bag
+$ roscore
+$ rosbag play records/29sepdanper/zed2_rosbag_2023-09-29-11-58-00.bag
 $ rosrun blueberry-detection-ros detection-ros.py -model YOLOV8 \
                                                   -sub 'zed2/zed_node/right/image_rect_color/compressed' \
                                                   -show True \
@@ -38,35 +41,6 @@ $ rosrun blueberry-detection-ros detection-ros.py -model YOLOV8 \
                                                   -threshold 500
 ```
 
-
-# To-do
-- [x] ~~Publicar el conteo de arandanos en un topico~~
-- [x] ~~Reiniciar el número de arandanos que se cuentan~~
-- [x] ~~Convertir los pesos de pytorch a tensorrt~~
-- [ ] Publicar la deteccion de arandanos en un topico
-- [ ] Solve: ' Inbound TCP/IP connection failed: connection from sender terminated before handshake header received. 0 bytes were received. Please check sender for additional details.' (Idea: Declare `image_crop` as a global variable, in `src/detection-ros.py`)
-
-
-# Detection Launch
-
-The content of the file: `src/detection.launch`
-
-```yaml
-<launch>
-  
-	<include 
-		file="$(find zed_wrapper)/launch/zed2i.launch" 
-	/>
-
-	<node 
-		pkg="blueberry-detection-ros"
-		type="detection-ros.py"
-		name="detection_node"  
-		output="screen"
-	/>
-
-</launch>
-```
 
 # Robot connection
 
@@ -100,6 +74,30 @@ rosrun blueberry-detection-ros detection-ros.py -model YOLOV8 \
 ```
 rviz
 ```
+
+
+# Detection Launch
+
+The content of the file: `src/detection.launch`
+
+```yaml
+<launch>
+  
+	<include 
+		file="$(find zed_wrapper)/launch/zed2i.launch" 
+	/>
+
+	<node 
+		pkg="blueberry-detection-ros"
+		type="detection-ros.py"
+		name="detection_node"  
+		output="screen"
+	/>
+
+</launch>
+```
+
+
 
 
 
