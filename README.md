@@ -67,6 +67,14 @@ rosrun blueberry-detection-ros detection-ros.py -model YOLOV8 \
 rosbag play records/zed2_rosbag_2023-09-29-12-10-05.bag
 ```
 
+### Publications:
+
+1. Artificial vision strategy for Ripeness assessment of Blueberries on Images taken during Pre-harvest stage in Agroindustrial Environments using Deep Learning Techniques. INTERCON2023. (https://ieeexplore.ieee.org/document/10326058)
+2. Detection and Classification of ventura-blueberries in five levels of ripeness from images taken during pre-harvest stage using Deep Learning techniques. ANDESCON2022. (https://ieeexplore.ieee.org/document/9989578)
+
+
+
+
 <!-- 
 # Robot connection
 
