@@ -1,5 +1,4 @@
-/src/detection/weights
-/src/weights
+/src/detection/weights_
 records
 /records
 /src/videos
@@ -8,3 +7,4 @@ records
 /dataset
 /src/object_detection_models/*.pt
 .mypy_cache
+weights_

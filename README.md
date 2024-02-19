@@ -19,26 +19,26 @@ $ rosrun blueberry-detection-ros detection-ros.py -model YOLOV5 \
 
 ```bash
 $ roscore
-$ rosbag play records/29sepdanper/zed2_rosbag_2023-09-29-11-55-24.bag
 $ rosrun blueberry-detection-ros detection-ros.py -model YOLOV8 \
                                                   -sub 'zed2/zed_node/right/image_rect_color/compressed' \
                                                   -show True \
                                                   -track True \
                                                   -count_mode vertical \
                                                   -threshold 500
+$ rosbag play records/29sepdanper/zed2_rosbag_2023-09-29-11-55-24.bag
 ```
 
 - Counting in horizontal mode
 
 ```bash
 $ roscore
-$ rosbag play records/29sepdanper/zed2_rosbag_2023-09-29-11-58-00.bag
 $ rosrun blueberry-detection-ros detection-ros.py -model YOLOV8 \
                                                   -sub 'zed2/zed_node/right/image_rect_color/compressed' \
                                                   -show True \
                                                   -track True \
                                                   -count_mode horizontal \
                                                   -threshold 500
+$ rosbag play records/29sepdanper/zed2_rosbag_2023-09-29-11-58-00.bag
 ```
 
 
