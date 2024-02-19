@@ -103,11 +103,11 @@ if __name__ == '__main__':
     TRACKING_FLAG = eval(args.tracking_flag)
 
     if MODEL == 'YOLOV5':
-        detector = Yolo5(weights='/home/pqbas/catkin_ws/src/blueberry/src/detection/weights/experiment_7/best.pt',
+        detector = Yolo5(weights='/home/pqbas/catkin_ws/src/blueberry-detection-ros/weights/best.pt',
                         data='',
                         device='cuda:0')
     elif MODEL == 'YOLOV8':
-        detector = Yolo8(weights='/home/pqbas/catkin_ws/src/blueberry/src/detection/weights/22Sep23/yolov8m_best.pt',
+        detector = Yolo8(weights='/home/pqbas/catkin_ws/src/blueberry-detection-ros/weights/yolov8m_best.pt',
                          device='cuda:0')
     
     if (TRACKING_FLAG == True)  and (MODEL != 'YOLOV8'):   
