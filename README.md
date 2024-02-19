@@ -1,4 +1,6 @@
-# Blueberry-Detection-Ros
+<div align="center">
+    <h1>Blueberry-Detection-Ros</h1>
+</div>
 
 This is a repository of a computer vision system to detect and classify blueberries in agroindustrial enviroments based on YoloV5/YoloV8 techniques, the model run over a Jetson Xavier.
 
