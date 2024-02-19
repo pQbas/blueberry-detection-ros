@@ -1,8 +1,24 @@
-# Steps to run this project
+# Blueberry-Detection-Ros
 
-### With YoloV5
+This is a repository of a computer vision system to detect and classify blueberries in agroindustrial enviroments based on YoloV5/YoloV8 techniques, the model run over a Jetson Xavier.
 
-- Detection
+### Use:
+
+Clone and install all requirements:
+
+```bash
+$ git clone https://github.com/pQbas/blueberry-detection-ros.git
+$ cd blueberry-detection-ros
+$ pip install -r requirements.txt
+```
+
+Download the weights:
+
+```bash
+$ ./src/weights/download_weights.sh
+```
+
+Run YoloV5/YoloV8 for blueberry **detection** using ROS framework:
 
 ```bash
 $ roscore
@@ -13,7 +29,7 @@ $ rosrun blueberry-detection-ros detection-ros.py -model YOLOV5 \
                                                   -track False
 ```
 
-### With YoloV8
+Run YoloV8 for blueberry **counting** using ROS framework:
 
 - Counting in vertical mode
 
@@ -41,7 +57,7 @@ $ rosrun blueberry-detection-ros detection-ros.py -model YOLOV8 \
 $ rosbag play records/29sepdanper/zed2_rosbag_2023-09-29-11-58-00.bag
 ```
 
-
+<!-- 
 # Robot connection
 
 1. SSH conection:
@@ -101,4 +117,4 @@ The content of the file: `src/detection.launch`
 
 
 
-
+ -->
