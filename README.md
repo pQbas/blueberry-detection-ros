@@ -1,5 +1,5 @@
 <div align="center">
-    <h1>Blueberry-Detection-Ros</h1>
+    <h1>Blueberry-Detection-ROS</h1>
 </div>
 
 This is a repository of a computer vision system to detect and classify blueberries in agroindustrial enviroments based on YoloV5/YoloV8 techniques, the model run over a Jetson Xavier.
@@ -14,11 +14,11 @@ cd blueberry-detection-ros
 pip install -r requirements.txt
 ```
 
-Download the weights:
+Download the weights and records:
 
 ```bash
-cd blueberry-detection-ros
 ./src/weights/download_weights.sh
+./records/download_test_records.sh
 ```
 
 Run YoloV5/YoloV8 for blueberry **detection** using ROS framework:

@@ -1,6 +1,4 @@
 /src/detection/weights_
-records
-/records
 /src/videos
 /src/gallery
 /dataset/Blueberry2.v7i.yolov8
@@ -8,3 +6,5 @@ records
 /src/object_detection_models/*.pt
 .mypy_cache
 weights_
+records_
+/include/blueberry-detection-ros
