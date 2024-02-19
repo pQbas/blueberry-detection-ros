@@ -17,7 +17,7 @@ pip install -r requirements.txt
 Download the weights and records:
 
 ```bash
-./src/weights/download_weights.sh
+./weights/download_weights.sh
 ./records/download_test_records.sh
 ```
 
