@@ -9,23 +9,24 @@ This is a repository of a computer vision system to detect and classify blueberr
 Clone and install all requirements:
 
 ```bash
-$ git clone https://github.com/pQbas/blueberry-detection-ros.git
-$ cd blueberry-detection-ros
-$ pip install -r requirements.txt
+git clone https://github.com/pQbas/blueberry-detection-ros.git
+cd blueberry-detection-ros
+pip install -r requirements.txt
 ```
 
 Download the weights:
 
 ```bash
-$ ./src/weights/download_weights.sh
+cd blueberry-detection-ros
+./src/weights/download_weights.sh
 ```
 
 Run YoloV5/YoloV8 for blueberry **detection** using ROS framework:
 
 ```bash
-$ roscore
-$ rosbag play zed2_rosbag_2023-09-29-11-55-24.bag
-$ rosrun blueberry-detection-ros detection-ros.py -model YOLOV5 \
+roscore
+rosbag play zed2_rosbag_2023-09-29-11-55-24.bag
+rosrun blueberry-detection-ros detection-ros.py -model YOLOV5 \
                                                   -sub 'zed2/zed_node/right/image_rect_color/compressed' \
                                                   -show True \
                                                   -track False
@@ -36,27 +37,27 @@ Run YoloV8 for blueberry **counting** using ROS framework:
 - Counting in vertical mode
 
 ```bash
-$ roscore
-$ rosrun blueberry-detection-ros detection-ros.py -model YOLOV8 \
+roscore
+rosrun blueberry-detection-ros detection-ros.py -model YOLOV8 \
                                                   -sub 'zed2/zed_node/right/image_rect_color/compressed' \
                                                   -show True \
                                                   -track True \
                                                   -count_mode vertical \
                                                   -threshold 500
-$ rosbag play records/29sepdanper/zed2_rosbag_2023-09-29-11-55-24.bag
+rosbag play records/29sepdanper/zed2_rosbag_2023-09-29-11-55-24.bag
 ```
 
 - Counting in horizontal mode
 
 ```bash
-$ roscore
-$ rosrun blueberry-detection-ros detection-ros.py -model YOLOV8 \
+roscore
+rosrun blueberry-detection-ros detection-ros.py -model YOLOV8 \
                                                   -sub 'zed2/zed_node/right/image_rect_color/compressed' \
                                                   -show True \
                                                   -track True \
                                                   -count_mode horizontal \
                                                   -threshold 500
-$ rosbag play records/29sepdanper/zed2_rosbag_2023-09-29-11-58-00.bag
+rosbag play records/29sepdanper/zed2_rosbag_2023-09-29-11-58-00.bag
 ```
 
 <!-- 
