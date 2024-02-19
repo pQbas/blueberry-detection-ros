@@ -8,3 +8,5 @@
 weights_
 records_
 /include/blueberry-detection-ros
+*.bag
+*.pt

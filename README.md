@@ -1,6 +1,13 @@
 <div align="center">
     <h1>Blueberry-Detection-ROS</h1>
+
+  <p align="center">
+    <a href="here_is_a_demo_video"><img alt="Blueberry Detection ROS" src="gallery/image-demo.png"></a>
+  </p>
+
 </div>
+
+
 
 This is a repository of a computer vision system to detect and classify blueberries in agroindustrial enviroments based on YoloV5/YoloV8 techniques, the model run over a Jetson Xavier.
 
@@ -44,7 +51,7 @@ rosrun blueberry-detection-ros detection-ros.py -model YOLOV8 \
                                                   -track True \
                                                   -count_mode vertical \
                                                   -threshold 500
-rosbag play records/zed2_rosbag_2023-09-29-12-10-05.bag
+rosbag play records/zed2_rosbag_2023-09-29-11-55-24.bag
 ```
 
 - Counting in horizontal mode
