@@ -31,7 +31,10 @@ from utils_.conversion_utils import msg2CompresedImage, msg2Image, get_image
 from utils_.image_processing_utils import draw_line, crop_center_square, write_text, counter, attach_information_zone
 
 
+
 def callback(msg):
+    global img_pred
+
     img = get_image(msg, TOPIC_NAME)
     img_crop = crop_center_square(img)
     prediction = detector.predict(img_crop, conf_thres=0.3, enable_tracking=TRACKING_FLAG)
@@ -40,35 +43,33 @@ def callback(msg):
     if TRACKING_FLAG:
         blueberry_counter.update_count(prediction)
         img_pred = blueberry_counter.plot_line_threshold(img_pred)
-        
+        number_blueberries = blueberry_counter.get_number_counted()['counted']
+
+    # ------ DESCRIPTION SHOWED IN PLOTT ----------
     img_pred = attach_information_zone(img_pred)
     write_text(img_pred, 'Detected: ', position=(20, 50), scale_font=1, thick=2, color=(255, 255, 255))
     write_text(img_pred, str(prediction[0].boxes.xywh.shape[0]), position=(20, 150), scale_font=3, thick=2, color=(255, 255, 255))
 
-    if TRACKING_FLAG:
-        number_blueberries = blueberry_counter.get_number_counted()['counted']
-        write_text(img_pred, 'Counted: ', position=(20, 200), scale_font=1, thick=2, color=(255, 255, 255))
-        write_text(img_pred, str(number_blueberries), position=(20, 300), scale_font=3, thick=2, color=(255, 255, 255))
-        
+    write_text(img_pred, 'Counted: ', position=(20, 200), scale_font=1, thick=2, color=(255, 255, 255))
+    write_text(img_pred, str(number_blueberries), position=(20, 300), scale_font=3, thick=2, color=(255, 255, 255))
+
+    write_text(img_pred, 'count mode: ', position=(20, 350), scale_font=1, thick=2, color=(255, 255, 255))
+    write_text(img_pred, str(COUNT_MODE), position=(20, 400 + 20), scale_font=2, thick=2, color=(255, 255, 255))
+
+    write_text(img_pred, 'direction: ', position=(20, 500), scale_font=1, thick=2, color=(255, 255, 255))
+    write_text(img_pred, str(DIRECTION), position=(20, 550 + 20), scale_font=2, thick=2, color=(255, 255, 255))
+    
+    write_text(img_pred, 'threshold: ', position=(20, 650), scale_font=1, thick=2, color=(255, 255, 255))
+    write_text(img_pred, str(THRESHOLD_TRACK), position=(20, 700 + 20), scale_font=2, thick=2, color=(255, 255, 255))
+    
+    write_text(img_pred, 'topic name: ', position=(20, 800), scale_font=1, thick=2, color=(255, 255, 255))
+    write_text(img_pred, str(TOPIC_NAME), position=(20, 850), scale_font=1, thick=2, color=(255, 255, 255))
+
 
     if SHOW_IMAGE and (prediction is not None):
-        
-        write_text(img_pred, 'count mode: ', position=(20, 350), scale_font=1, thick=2, color=(255, 255, 255))
-        write_text(img_pred, str(COUNT_MODE), position=(20, 400 + 20), scale_font=2, thick=2, color=(255, 255, 255))
-
-        write_text(img_pred, 'direction: ', position=(20, 500), scale_font=1, thick=2, color=(255, 255, 255))
-        write_text(img_pred, str(DIRECTION), position=(20, 550 + 20), scale_font=2, thick=2, color=(255, 255, 255))
-        
-        write_text(img_pred, 'threshold: ', position=(20, 650), scale_font=1, thick=2, color=(255, 255, 255))
-        write_text(img_pred, str(THRESHOLD_TRACK), position=(20, 700 + 20), scale_font=2, thick=2, color=(255, 255, 255))
-       
-        write_text(img_pred, 'topic name: ', position=(20, 800), scale_font=1, thick=2, color=(255, 255, 255))
-        write_text(img_pred, str(TOPIC_NAME), position=(20, 850), scale_font=1, thick=2, color=(255, 255, 255))
-       
         cv2.imshow('Image', img_pred)
         cv2.waitKey(1)
 
-    image_pub.publish(img2msg.cv2_to_imgmsg(img_crop, "bgr8"))
     return
 
 
@@ -82,7 +83,8 @@ def callback_reset(msg):
 
 img2msg = CvBridge()
 def callback_image_publisher(img_crop):
-    image_pub.publish(img2msg.cv2_to_imgmsg(img_crop, "bgr8"))
+    image_pub.publish(img_crop)
+    return
 
 
 if __name__ == '__main__':
@@ -141,13 +143,14 @@ if __name__ == '__main__':
     # -------------------------------------------------------------------------------------------
     # Configure nodes
     # -------------------------------------------------------------------------------------------
+    img_pred = np.zeros([600,600,3], dtype=np.uint8)
+
     try:
         rospy.init_node(NODE_NAME, anonymous=True)
 
         ''' -------------------- Publishers ----------------------------'''
         # Publish the detections
-        image_pub = ros_publisher('/detection_output/image_topic', Image, queue_size=1, callback_function=callback_image_publisher) 
-
+        image_pub = rospy.Publisher('/detection_output/image_topic', Image, queue_size=1)
         ''' -------------------- Subscribers ----------------------------'''
         # Image from zed2 camera
         if 'compressed' in TOPIC_NAME.split('/'):
@@ -157,10 +160,12 @@ if __name__ == '__main__':
         else:
             sys.exit(f"TOPIC_NAME not founded")
         
-        # Reset signal of count
-        ros_suscriber('chatter', String, callback_reset)
-
-        rospy.spin()
+        ''' -------------------- Running Publisher -----------------------------'''
+        r = rospy.Rate(10)
+        while not rospy.is_shutdown():
+            image_pub.publish(img2msg.cv2_to_imgmsg(img_pred, "bgr8"))
+            r.sleep()
+            
 
     except rospy.ROSInterruptException:
         pass

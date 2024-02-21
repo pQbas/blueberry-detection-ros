@@ -22,9 +22,9 @@ class ros_publisher:
         self.topic_name = topic_name
         
         if callback_function == None:
-            self.publisher = rospy.Publisher(self.topic_name, data_type, self.callback)
+            self.publisher = rospy.Publisher(self.topic_name, data_type, self.callback, queue_size=queue_size)
         else:
-            self.publisher = rospy.Publisher(self.topic_name, data_type, callback_function,  queue_size=1)
+            self.publisher = rospy.Publisher(self.topic_name, data_type, callback_function,  queue_size=queue_size)
 
             
     def callback(self, data):
