@@ -40,7 +40,8 @@ rosrun blueberry-detection-ros detection-ros.py -model YOLOV8 \
                                                   -track True \
                                                   -count_mode vertical \
                                                   -threshold 500 \
-                                                  -direction top2down
+                                                  -direction top2down \
+                                                  -weights 'weights/yolov8m_best.pt'
 rosbag play records/zed2_rosbag_2023-09-29-11-55-24.bag
 ```
 
@@ -54,7 +55,8 @@ rosrun blueberry-detection-ros detection-ros.py -model YOLOV8 \
                                                   -track True \
                                                   -count_mode horizontal \
                                                   -threshold 500 \
-                                                  -direction right2left
+                                                  -direction right2left \
+                                                  -weights 'weights/yolov8m_best.pt'
 rosbag play records/zed2_rosbag_2023-09-29-11-58-00.bag
 ```
 

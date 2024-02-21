@@ -29,7 +29,7 @@ from object_detection_models.yolo8 import Yolo8
 from classes.ros_classes import ros_suscriber, ros_publisher
 from utils_.conversion_utils import msg2CompresedImage, msg2Image, get_image
 from utils_.image_processing_utils import draw_line, crop_center_square, write_text, counter, attach_information_zone
-
+import os
 
 
 def callback(msg):
@@ -101,6 +101,7 @@ if __name__ == '__main__':
     parser.add_argument("-count_mode", "--count_mode", help = "Counting mode is 'Horizontal' or 'Vertical'")
     parser.add_argument("-threshold_track", "--threshold_track", help='threshold of the tracker')
     parser.add_argument("-direction","--direction", help=' direction is: "right2left","left2right","up2down","down2top" ' )
+    parser.add_argument("-weights","--weights_path", help='weights path')
     args = parser.parse_args()
 
     if args.model:
@@ -122,16 +123,19 @@ if __name__ == '__main__':
     TOPIC_NAME = str(args.subscriber)
     NODE_NAME = 'detection_node'
 
+    WEIGHTS_PATH = str(args.weights_path)
+
     # --------------------------------------------------------------------------------------------
     # Load the model
     # --------------------------------------------------------------------------------------------
     
     if MODEL == 'YOLOV5':
-        detector = Yolo5(weights='/home/pqbas/catkin_ws/src/blueberry-detection-ros/weights/best.pt',
+        
+        detector = Yolo5(weights=WEIGHTS_PATH,
                         data='',
                         device='cuda:0')
     elif MODEL == 'YOLOV8':
-        detector = Yolo8(weights='/home/pqbas/catkin_ws/src/blueberry-detection-ros/weights/yolov8m_best.pt',
+        detector = Yolo8(weights=WEIGHTS_PATH,
                          device='cuda:0')
     
     if (TRACKING_FLAG == True)  and (MODEL != 'YOLOV8'):   
