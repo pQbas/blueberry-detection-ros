@@ -50,11 +50,22 @@ def write_text(img, text, position, scale_font, thick, color):
 import torch
 
 class counter:
-    def __init__(self, count_mode, threshold_track):
+    def __init__(self, count_mode, threshold_track, direction):
         self.LIST_0 = []
         self.LIST_1 = []
         self.count_mode = count_mode
         self.threshold_track = threshold_track
+        self.direction = direction
+
+        if self.direction == 'top2down':
+            self.count_condition = lambda y: y < self.threshold_track
+        elif self.direction == 'down2top':
+            self.count_condition = lambda y: y > self.threshold_track 
+        elif self.direction == 'right2left':
+            self.count_condition = lambda x: x < self.threshold_track
+        elif self.direction == 'left2right':
+            self.count_condition = lambda x: x > self.threshold_track
+        
 
     def update_count(self, prediction=None):
         
@@ -75,11 +86,11 @@ class counter:
                 for (id, x, y) in to_count:
                     id = id.item()
         
-                    if x < self.threshold_track and self.count_mode == 'horizontal':
+                    if self.count_condition(x.item()) and self.count_mode == 'horizontal':
                         set_0.add(id)       # Adds the id if not already present                        
                         set_1.discard(id)   # Removes the id if present
 
-                    if y < self.threshold_track and self.count_mode == 'vertical':    
+                    if self.count_condition(y.item())  and self.count_mode == 'vertical':    
                         set_0.add(id)       # Adds the id if not already present                        
                         set_1.discard(id)   # Removes the id if present
                     

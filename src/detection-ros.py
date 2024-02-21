@@ -42,15 +42,29 @@ def callback(msg):
         img_pred = blueberry_counter.plot_line_threshold(img_pred)
         
     img_pred = attach_information_zone(img_pred)
-    write_text(img_pred, 'Detected: ', position=(20, 200), scale_font=1, thick=2, color=(255, 255, 255))
-    write_text(img_pred, str(prediction[0].boxes.xywh.shape[0]), position=(20, 300), scale_font=3, thick=2, color=(255, 255, 255))
+    write_text(img_pred, 'Detected: ', position=(20, 50), scale_font=1, thick=2, color=(255, 255, 255))
+    write_text(img_pred, str(prediction[0].boxes.xywh.shape[0]), position=(20, 150), scale_font=3, thick=2, color=(255, 255, 255))
 
     if TRACKING_FLAG:
         number_blueberries = blueberry_counter.get_number_counted()['counted']
-        write_text(img_pred, 'Counted: ', position=(20, 50), scale_font=1, thick=2, color=(255, 255, 255))
-        write_text(img_pred, str(number_blueberries), position=(20, 150), scale_font=3, thick=2, color=(255, 255, 255))
+        write_text(img_pred, 'Counted: ', position=(20, 200), scale_font=1, thick=2, color=(255, 255, 255))
+        write_text(img_pred, str(number_blueberries), position=(20, 300), scale_font=3, thick=2, color=(255, 255, 255))
+        
 
     if SHOW_IMAGE and (prediction is not None):
+        
+        write_text(img_pred, 'count mode: ', position=(20, 350), scale_font=1, thick=2, color=(255, 255, 255))
+        write_text(img_pred, str(COUNT_MODE), position=(20, 400 + 20), scale_font=2, thick=2, color=(255, 255, 255))
+
+        write_text(img_pred, 'direction: ', position=(20, 500), scale_font=1, thick=2, color=(255, 255, 255))
+        write_text(img_pred, str(DIRECTION), position=(20, 550 + 20), scale_font=2, thick=2, color=(255, 255, 255))
+        
+        write_text(img_pred, 'threshold: ', position=(20, 650), scale_font=1, thick=2, color=(255, 255, 255))
+        write_text(img_pred, str(THRESHOLD_TRACK), position=(20, 700 + 20), scale_font=2, thick=2, color=(255, 255, 255))
+       
+        write_text(img_pred, 'topic name: ', position=(20, 800), scale_font=1, thick=2, color=(255, 255, 255))
+        write_text(img_pred, str(TOPIC_NAME), position=(20, 850), scale_font=1, thick=2, color=(255, 255, 255))
+       
         cv2.imshow('Image', img_pred)
         cv2.waitKey(1)
 
@@ -84,6 +98,7 @@ if __name__ == '__main__':
     parser.add_argument("-track", "--tracking_flag", help = "Tracking flag is used to count blueberries")
     parser.add_argument("-count_mode", "--count_mode", help = "Counting mode is 'Horizontal' or 'Vertical'")
     parser.add_argument("-threshold_track", "--threshold_track", help='threshold of the tracker')
+    parser.add_argument("-direction","--direction", help=' direction is: "right2left","left2right","up2down","down2top" ' )
     args = parser.parse_args()
 
     if args.model:
@@ -94,14 +109,21 @@ if __name__ == '__main__':
     else:
         sys.exit(f"Model not founded")
 
+    MODEL = str(args.model)
+    SHOW_IMAGE = eval(args.show_image)
+    TRACKING_FLAG = eval(args.tracking_flag)
+ 
+    COUNT_MODE = str(args.count_mode)
+    THRESHOLD_TRACK = int(args.threshold_track)
+    DIRECTION = str(args.direction)
+ 
+    TOPIC_NAME = str(args.subscriber)
+    NODE_NAME = 'detection_node'
+
     # --------------------------------------------------------------------------------------------
     # Load the model
     # --------------------------------------------------------------------------------------------
     
-    MODEL = str(args.model)
-    SHOW_IMAGE = eval(args.show_image)
-    TRACKING_FLAG = eval(args.tracking_flag)
-
     if MODEL == 'YOLOV5':
         detector = Yolo5(weights='/home/pqbas/catkin_ws/src/blueberry-detection-ros/weights/best.pt',
                         data='',
@@ -113,16 +135,12 @@ if __name__ == '__main__':
     if (TRACKING_FLAG == True)  and (MODEL != 'YOLOV8'):   
         sys.exit("Just YoloV8 has tracking methods implemented")
     
-    COUNT_MODE = str(args.count_mode)
-    THRESHOLD_TRACK = int(args.threshold_track)
-    blueberry_counter = counter(count_mode=COUNT_MODE, threshold_track=THRESHOLD_TRACK)
+
+    blueberry_counter = counter(count_mode=COUNT_MODE, threshold_track=THRESHOLD_TRACK, direction=DIRECTION)
 
     # -------------------------------------------------------------------------------------------
     # Configure nodes
     # -------------------------------------------------------------------------------------------
-    TOPIC_NAME = str(args.subscriber)
-    NODE_NAME = 'detection_node'
-
     try:
         rospy.init_node(NODE_NAME, anonymous=True)
 
