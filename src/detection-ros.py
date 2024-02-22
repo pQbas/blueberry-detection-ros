@@ -112,6 +112,7 @@ if __name__ == '__main__':
     else:
         sys.exit(f"Model not founded")
 
+
     MODEL = str(args.model)
     SHOW_IMAGE = eval(args.show_image)
     TRACKING_FLAG = eval(args.tracking_flag)

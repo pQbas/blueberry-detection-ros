@@ -1,0 +1,21 @@
+En construccion
+
+<launch>
+  
+	<!-- <include 
+		file="$(find zed_wrapper)/launch/zed2i.launch" 
+	/> -->
+
+	<node 
+		pkg="blueberry-detection-ros"
+		type="detection-ros.py"
+		name="detection_node"
+		output="screen"
+    >    
+        <rosparam>
+            my_arg: "custom_value"
+        </rosparam>
+	
+    </node>
+
+</launch>

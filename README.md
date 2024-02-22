@@ -11,7 +11,7 @@
 
 This is a repository of a computer vision system to detect and classify blueberries in agroindustrial enviroments based on YoloV5/YoloV8 techniques, the model run over a Jetson Xavier.
 
-### Use:
+## Installation & Testing:
 
 Clone and install all requirements:
 
@@ -30,10 +30,13 @@ Download the weights and records:
 
 Run YoloV8 for blueberry **counting** using ROS framework:
 
-- Counting in vertical mode
+### Testing locally
+
+Records generally use zed2 topics:
 
 ```bash
-roscore
+# horizontal-mode
+rosbag play records/zed2_rosbag_2023-09-29-11-55-24.bag -l
 rosrun blueberry-detection-ros detection-ros.py -model YOLOV8 \
                                                   -sub 'zed2/zed_node/right/image_rect_color/compressed' \
                                                   -show True \
@@ -42,13 +45,9 @@ rosrun blueberry-detection-ros detection-ros.py -model YOLOV8 \
                                                   -threshold 500 \
                                                   -direction top2down \
                                                   -weights 'weights/yolov8m_best.pt'
-rosbag play records/zed2_rosbag_2023-09-29-11-55-24.bag
-```
 
-- Counting in horizontal mode
-
-```bash
-roscore
+# vertical-mode
+rosbag play records/zed2_rosbag_2023-09-29-12-10-05.bag -l
 rosrun blueberry-detection-ros detection-ros.py -model YOLOV8 \
                                                   -sub 'zed2/zed_node/right/image_rect_color/compressed' \
                                                   -show True \
@@ -57,7 +56,52 @@ rosrun blueberry-detection-ros detection-ros.py -model YOLOV8 \
                                                   -threshold 500 \
                                                   -direction right2left \
                                                   -weights 'weights/yolov8m_best.pt'
-rosbag play records/zed2_rosbag_2023-09-29-11-58-00.bag
+```
+
+### Testing on Robot
+
+Records generally use zed2i topics:
+
+```bash
+# run zed2i camera
+roslaunch zed_wrapper zed2i.launch
+
+# run detection node
+rosrun blueberry-detection-ros detection-ros.py -model YOLOV8 \
+                                                  -sub '/zed2i/zed_node/left/image_rect_color' \
+                                                  -show False \
+                                                  -track True \
+                                                  -count_mode horizontal \
+                                                  -threshold 500 \
+                                                  -direction right2left \
+                                                  -weights 'weights/yolov8m_best.pt'
+```
+
+
+## Procedimiento
+
+Start the detection and counting system:
+
+```bash
+# run zed2i camera
+roslaunch zed_wrapper zed2i.launch
+
+# run detection node
+rosrun blueberry-detection-ros detection-ros.py -model YOLOV8 \
+                                                  -sub '/zed2i/zed_node/left/image_rect_color' \
+                                                  -show False \
+                                                  -track True \
+                                                  -count_mode horizontal \
+                                                  -threshold 500 \
+                                                  -direction right2left \
+                                                  -weights 'weights/yolov8m_best.pt'
+```
+
+Save records `./scripts/zed2i_record.sh [base_path] [today_date] [n_test] [description]`:
+
+```bash
+./scripts/zed2i_record.sh /zed2i/zed_node 21feb24 1 "counting_test"
+./scripts/zed2i_record.sh /zed2i/zed_node 21feb24 2 "right to left movement of robot"
 ```
 
 ### Publications:
@@ -78,6 +122,16 @@ rosrun blueberry-detection-ros detection-ros.py -model YOLOV5 \
                                                   -track False
 ```
  -->
+
+
+<!-- rosrun blueberry-detection-ros detection-ros.py -model YOLOV8 \
+                                                  -sub '/zed2i/zed_node/left/image_rect_color' \
+                                                  -show False \
+                                                  -track True \
+                                                  -count_mode horizontal \
+                                                  -threshold 500 \
+                                                  -direction right2left \
+                                                  -weights 'weights/yolov8m_best.pt' -->
 
 
 
