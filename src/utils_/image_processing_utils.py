@@ -61,9 +61,9 @@ class counter:
             self.count_condition = lambda y: y > self.threshold_track
         elif self.direction == 'down2top':
             self.count_condition = lambda y: y < self.threshold_track 
-        elif self.direction == 'right2left':
-            self.count_condition = lambda x: x < self.threshold_track
         elif self.direction == 'left2right':
+            self.count_condition = lambda x: x < self.threshold_track
+        elif self.direction == 'right2left':
             self.count_condition = lambda x: x > self.threshold_track
         
 

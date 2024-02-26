@@ -66,7 +66,6 @@ def callback(msg):
     write_text(img_pred, 'topic name: ', position=(20, 800), scale_font=1, thick=2, color=(255, 255, 255))
     write_text(img_pred, str(TOPIC_NAME), position=(20, 850), scale_font=1, thick=2, color=(255, 255, 255))
 
-
     if SHOW_IMAGE and (prediction is not None):
         cv2.imshow('Image', img_pred)
         cv2.waitKey(1)
@@ -167,7 +166,7 @@ if __name__ == '__main__':
             sys.exit(f"TOPIC_NAME not founded")
         
         ''' -------------------- Running Publisher -----------------------------'''
-        r = rospy.Rate(10)
+        r = rospy.Rate(30)
         while not rospy.is_shutdown():
             image_pub.publish(img2msg.cv2_to_imgmsg(img_pred, "bgr8"))
             r.sleep()
