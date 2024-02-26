@@ -73,8 +73,17 @@ rosrun blueberry-detection-ros detection-ros.py -model YOLOV8 \
                                                   -threshold 500 \
                                                   -direction right2left \
                                                   -weights 'weights/yolov8m_best.pt'
-```
 
+rosrun blueberry-detection-ros detection-ros.py -model YOLOV8 \
+                                                  -sub '/zed2i/zed_node/left/image_rect_color' \
+                                                  -show False \
+                                                  -track True \
+                                                  -count_mode vertical \
+                                                  -threshold 500 \
+                                                  -direction down2top \
+                                                  -weights 'weights/yolov8m_best.pt'
+
+```
 
 ## Procedimiento
 
@@ -82,7 +91,7 @@ Start the detection and counting system:
 
 ```bash
 # run zed2i camera
-roslaunch zed_wrapper zed2i.launch
+roslaunch zed_wrapper zed2i.launch  
 
 # run detection node
 cd catkin_ws/src/blueberry-detection-ros/
@@ -101,6 +110,11 @@ Save records `./scripts/test_record.sh [base_path] [today_date] [n_test] [descri
 ```bash
 ./scripts/test_record.sh /zed2i/zed_node 22feb24 1 "horizontal"
 ```
+
+### To-do:
+- [ ] Limpiar el ssd para poder realizar grabaciones.
+- [ ] Definir las pruebas a realizar.
+- [ ] Realizar una práctica de las pruebas a realizar con el robot en campo.
 
 ### Publications:
 

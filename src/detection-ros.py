@@ -49,10 +49,10 @@ def callback(msg):
     # ------ DESCRIPTION SHOWED IN PLOTT ----------
     img_pred = attach_information_zone(img_pred)
     write_text(img_pred, 'Detected: ', position=(20, 50), scale_font=1, thick=2, color=(255, 255, 255))
-    write_text(img_pred, str(prediction[0].boxes.xywh.shape[0]), position=(20, 150), scale_font=3, thick=2, color=(255, 255, 255))
+    write_text(img_pred, str(prediction[0].boxes.xywh.shape[0]), position=(20, 150), scale_font=2, thick=2, color=(255, 255, 255))
 
     write_text(img_pred, 'Counted: ', position=(20, 200), scale_font=1, thick=2, color=(255, 255, 255))
-    write_text(img_pred, str(number_blueberries), position=(20, 300), scale_font=3, thick=2, color=(255, 255, 255))
+    write_text(img_pred, str(number_blueberries), position=(20, 300), scale_font=2, thick=2, color=(255, 255, 255))
 
     write_text(img_pred, 'count mode: ', position=(20, 350), scale_font=1, thick=2, color=(255, 255, 255))
     write_text(img_pred, str(COUNT_MODE), position=(20, 400 + 20), scale_font=2, thick=2, color=(255, 255, 255))

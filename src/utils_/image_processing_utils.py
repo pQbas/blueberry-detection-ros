@@ -85,7 +85,7 @@ class counter:
                 
                 for (id, x, y) in to_count:
                     id = id.item()
-        
+            
                     if self.count_condition(x.item()) and self.count_mode == 'horizontal':
                         set_0.add(id)       # Adds the id if not already present                        
                         set_1.discard(id)   # Removes the id if present
@@ -94,7 +94,7 @@ class counter:
                         set_0.add(id)       # Adds the id if not already present                        
                         set_1.discard(id)   # Removes the id if present
                     
-                    elif id in set_0:
+                    if id in set_0:
                         set_1.add(id)
 
                 self.LIST_0 = list(set_0)
