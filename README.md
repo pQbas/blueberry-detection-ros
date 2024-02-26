@@ -93,15 +93,14 @@ rosrun blueberry-detection-ros detection-ros.py -model YOLOV8 \
                                                   -track True \
                                                   -count_mode horizontal \
                                                   -threshold 500 \
-                                                  -direction right2left \
+                                                  -direction left2right \
                                                   -weights 'weights/yolov8m_best.pt'
 ```
 
-Save records `./scripts/zed2i_record.sh [base_path] [today_date] [n_test] [description]`:
+Save records `./scripts/test_record.sh [base_path] [today_date] [n_test] [description]`:
 
 ```bash
-./scripts/zed2i_record.sh /zed2i/zed_node 21feb24 1 "counting_test"
-./scripts/zed2i_record.sh /zed2i/zed_node 21feb24 2 "right to left movement of robot"
+./scripts/test_record.sh /zed2i/zed_node 22feb24 1 "horizontal"
 ```
 
 ### Publications:
