@@ -7,8 +7,6 @@
 
 </div>
 
-
-
 This is a repository of a computer vision system to detect and classify blueberries in agroindustrial enviroments based on YoloV5/YoloV8 techniques, the model run over a Jetson Xavier.
 
 ## Installation & Testing:
@@ -87,6 +85,7 @@ Start the detection and counting system:
 roslaunch zed_wrapper zed2i.launch
 
 # run detection node
+cd catkin_ws/src/blueberry-detection-ros/
 rosrun blueberry-detection-ros detection-ros.py -model YOLOV8 \
                                                   -sub '/zed2i/zed_node/left/image_rect_color' \
                                                   -show False \
@@ -141,12 +140,12 @@ rosrun blueberry-detection-ros detection-ros.py -model YOLOV5 \
 
 ```bash
 ssh ubuntu@192.168.0.40
-password: pi123456
+pi123456
 ssh labinm-jetson@192.168.0.10
-password: rpgdini100
+rpgdini100
 ```
 
-2. ZED2i:
+1. ZED2i:
 
 ```bash
 roslaunch zed_wrapper zed2i.launch
