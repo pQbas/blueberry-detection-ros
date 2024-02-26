@@ -37,7 +37,7 @@ def callback(msg):
 
     img = get_image(msg, TOPIC_NAME)
     img_crop = crop_center_square(img)
-    img_crop = cv2.COLOR_RGB2BGR(img_crop)
+    img_crop = cv2.cvtColor(img_crop, cv2.COLOR_RGB2BGR)
     prediction = detector.predict(img_crop, conf_thres=0.3, enable_tracking=TRACKING_FLAG)
     img_pred = detector.plot_prediction(img_crop, prediction)
 
