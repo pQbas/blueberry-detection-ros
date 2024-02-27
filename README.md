@@ -67,7 +67,7 @@ roslaunch zed_wrapper zed2i.launch
 # run detection node
 rosrun blueberry-detection-ros detection-ros.py -model YOLOV8 \
                                                   -sub '/zed2i/zed_node/left/image_rect_color' \
-                                                  -show True \
+                                                  -show False \
                                                   -track True \
                                                   -count_mode horizontal \
                                                   -threshold 320 \
