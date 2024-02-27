@@ -38,12 +38,15 @@ class Yolo8:
             w = results[0].boxes.xywh[i][2].item()
             h = results[0].boxes.xywh[i][3].item()
             #id = int(results[0].boxes.id[i].item())
+
+            cv2.rectangle(img, 
+                          (int(x - w/2),int(y - h/2)), (int(x + w/2),int(y + h/2)), (255,255,0), 1) 
             
-            cv2.circle( img,
-                        center = (int(x),int(y)), 
-                        radius = int(np.sqrt((w)**2 + (h)**2)/3), 
-                        color= (0,0,255), 
-                        thickness = 2)
+            # cv2.circle( img,
+            #             center = (int(x),int(y)), 
+            #             radius = int(np.sqrt((w)**2 + (h)**2)/3), 
+            #             color= (0,0,255), 
+            #             thickness = 2)
             
             
             #cv2.putText( img, str(id), (int(x-10),int(y+5)), cv2.FONT_HERSHEY_SIMPLEX , 0.6, (0, 255, 255), 2, cv2.LINE_AA, False) 
