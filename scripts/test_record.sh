@@ -27,13 +27,15 @@ echo $DESCRIPTION > ~/xavier_ssd/blueberry/records/$DATE/test_$TEST_NUMBER/descr
 
 # Start the rosbag
 rosbag record -o ~/xavier_ssd/blueberry/records/$DATE/test_$TEST_NUMBER/testing.bag \
-    $BASE_PATH/left/camera_info \
-    $BASE_PATH/left/image_rect_color \
     $BASE_PATH/right_raw/camera_info \
-    $BASE_PATH/right/image_rect_color \
+    $BASE_PATH/right/image_rect_color/compressed \
     $BASE_PATH/temperature/imu \
     $BASE_PATH/atm_press \
     /odom \
-    /detection_output/image_topic
+
+
+# $BASE_PATH/left/camera_info \
+# $BASE_PATH/left/image_rect_color \
+# /detection_output/image_topic
 
 

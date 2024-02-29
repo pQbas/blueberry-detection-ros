@@ -87,29 +87,46 @@ rosrun blueberry-detection-ros detection-ros.py -model YOLOV8 \
 
 ## Procedimiento
 
+SSH conection:
+
+```bash
+ssh ubuntu@192.168.0.40
+pi123456
+ssh labinm-jetson@192.168.0.10
+rpgdini100
+```
+
 Start the detection and counting system:
 
 ```bash
-# run zed2i camera
-roslaunch zed_wrapper zed2i.launch  
-
-# run detection node
-cd catkin_ws/src/blueberry-detection-ros/
-rosrun blueberry-detection-ros detection-ros.py -model YOLOV8 \
-                                                  -sub '/zed2i/zed_node/left/image_rect_color' \
-                                                  -show False \
-                                                  -track True \
-                                                  -count_mode horizontal \
-                                                  -threshold 500 \
-                                                  -direction left2right \
-                                                  -weights 'weights/yolov8m_best.pt'
+cd ~/catkin_ws/src/blueberry-detection-ros
+roslaunch blueberry-detection-ros blueberry_detection_deploying.launch
 ```
 
 Save records `./scripts/test_record.sh [base_path] [today_date] [n_test] [description]`:
 
 ```bash
-./scripts/test_record.sh /zed2i/zed_node 22feb24 1 "horizontal"
+cd ~/catkin_ws/src/blueberry-detection-ros
+./scripts/test_record.sh /zed2i/zed_node 28feb24 1 "horizontal"
 ```
+
+
+<!-- # # run zed2i camera
+# roslaunch zed_wrapper zed2i.launch  
+
+# # run detection node
+# cd catkin_ws/src/blueberry-detection-ros/
+# rosrun blueberry-detection-ros detection-ros.py -model YOLOV8 \
+#                                                   -sub '/zed2i/zed_node/left/image_rect_color' \
+#                                                   -show False \
+#                                                   -track True \
+#                                                   -count_mode horizontal \
+#                                                   -threshold 500 \
+#                                                   -direction left2right \
+#                                                   -weights 'weights/yolov8m_best.pt'
+# ```
+ -->
+
 
 ### To-do:
 - [ ] Limpiar el ssd para poder realizar grabaciones.
@@ -211,7 +228,7 @@ The content of the file: `src/detection.launch`
 - MODIFICAR EL CÓDIGO QUE TENGO EN MI COMPUTADORA
 - ABRIR VSCODE EN MI COMPUTADORA Y EJECUTAR EL ARCHIVO QUE DETECTA ARANDANOS Y PROBAR TODOS LOS ARCHIVOS DESDE UN ARCHIVO .LAUNCH
 
----------------------------------------
+----------- ----------------------------
 
 - OTRA OPCION ES:
 - ABRIR GRUPOS DE ARCHIVOS MEDIANTE DIFERENTES .LAUNCH

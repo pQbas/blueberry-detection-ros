@@ -9,7 +9,7 @@ object_detection:
 count_configuration:
   tracking_flag: True
   count_mode: 'horizontal'
-  threshold_track: 320
+  threshold_track: 540
   direction: 'right2left'
   
 visualization:
