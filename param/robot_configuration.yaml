@@ -4,7 +4,7 @@ node_configuration:
 
 object_detection:
   model: 'YOLOV8'
-  weights_path: '/home/labinm-jetson/catkin_ws/src/blueberry-detection-ros/weights/yolov8s_normal.pt'
+  weights_path: '/home/labinm-jetson/catkin_ws/src/blueberry-detection-ros/weights/yolov8m_best.pt'
 
 count_configuration:
   tracking_flag: True
