@@ -87,45 +87,62 @@ def callback_image_publisher(img_crop):
     return
 
 
+def get_param(a,b):
+  return 
+
+
 if __name__ == '__main__':
 
     # -------------------------------------------------------------------------------------------
     # Parser arguments: Model  
     # -------------------------------------------------------------------------------------------
 
-    parser = argparse.ArgumentParser()
-    parser.add_argument("-model", "--model", help = "Object Detection model")
-    parser.add_argument("-show", "--show_image", help = "Show image of detection")
-    parser.add_argument("-sub", "--subscriber", help = "Suscriber topic, it's the source of the images")
-    parser.add_argument("-track", "--tracking_flag", help = "Tracking flag is used to count blueberries")
-    parser.add_argument("-count_mode", "--count_mode", help = "Counting mode is 'Horizontal' or 'Vertical'")
-    parser.add_argument("-threshold_track", "--threshold_track", help='threshold of the tracker')
-    parser.add_argument("-direction","--direction", help=' direction is: "right2left","left2right","up2down","down2top" ' )
-    parser.add_argument("-weights","--weights_path", help='weights path')
-    args = parser.parse_args()
+    try:
+        parser = argparse.ArgumentParser()
+        parser.add_argument("-model", "--model", help = "Object Detection model")
+        parser.add_argument("-show", "--show_image", help = "Show image of detection")
+        parser.add_argument("-sub", "--subscriber", help = "Suscriber topic, it's the source of the images")
+        parser.add_argument("-track", "--tracking_flag", help = "Tracking flag is used to count blueberries")
+        parser.add_argument("-count_mode", "--count_mode", help = "Counting mode is 'Horizontal' or 'Vertical'")
+        parser.add_argument("-threshold_track", "--threshold_track", help='threshold of the tracker')
+        parser.add_argument("-direction","--direction", help=' direction is: "right2left","left2right","up2down","down2top" ' )
+        parser.add_argument("-weights","--weights_path", help='weights path')
+        args = parser.parse_args()
 
-    if args.model:
-        print("Model: % s" % args.model)
-        print("Show Image: % s" % args.show_image)
-        print("Sub: % s" % args.subscriber)
-        print("Track: % s" % args.tracking_flag)
-    else:
-        sys.exit(f"Model not founded")
+        
+        TOPIC_NAME = str(args.subscriber)
+        NODE_NAME = 'blueberry_detection'
 
+        MODEL = str(args.model)
+        WEIGHTS_PATH = str(args.weights_path)
 
-    MODEL = str(args.model)
-    SHOW_IMAGE = eval(args.show_image)
-    TRACKING_FLAG = eval(args.tracking_flag)
- 
-    COUNT_MODE = str(args.count_mode)
-    THRESHOLD_TRACK = int(args.threshold_track)
-    DIRECTION = str(args.direction)
- 
-    TOPIC_NAME = str(args.subscriber)
-    NODE_NAME = 'detection_node'
+        TRACKING_FLAG = eval(args.tracking_flag)
+        COUNT_MODE = str(args.count_mode)
+        THRESHOLD_TRACK = int(args.threshold_track)
+        DIRECTION = str(args.direction)
 
-    WEIGHTS_PATH = str(args.weights_path)
+        SHOW_IMAGE = eval(args.show_image)
+        
+    except:
+        TOPIC_NAME = rospy.get_param('node_configuration/topic_name')
+        NODE_NAME = rospy.get_param('node_configuration/node_name')
 
+        MODEL = rospy.get_param('object_detection/model')
+        WEIGHTS_PATH = rospy.get_param('object_detection/weights_path')
+
+        TRACKING_FLAG = rospy.get_param('count_configuration/tracking_flag')
+        COUNT_MODE = rospy.get_param('count_configuration/count_mode')
+        THRESHOLD_TRACK = rospy.get_param('count_configuration/threshold_track')
+        DIRECTION = rospy.get_param('count_configuration/direction')
+
+        SHOW_IMAGE = rospy.get_param('visualization/show_image')
+        
+    
+    print("Model: % s" % MODEL)
+    print("Show Image: % s" % SHOW_IMAGE)
+    print("Sub: % s" % TOPIC_NAME)
+    print("Track: % s" % TRACKING_FLAG)
+    
     # --------------------------------------------------------------------------------------------
     # Load the model
     # --------------------------------------------------------------------------------------------

@@ -1,21 +1,18 @@
-En construccion
-
 <launch>
   
-	<!-- <include 
+	<include 
 		file="$(find zed_wrapper)/launch/zed2i.launch" 
-	/> -->
+	/>
+	
+	<rosparam file="$(find blueberry-detection-ros)/param/robot_configuration.yaml" command="load" />
 
 	<node 
 		pkg="blueberry-detection-ros"
 		type="detection-ros.py"
 		name="detection_node"
 		output="screen"
-    >    
-        <rosparam>
-            my_arg: "custom_value"
-        </rosparam>
-	
+    >
     </node>
+
 
 </launch>

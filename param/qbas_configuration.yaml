@@ -1,0 +1,19 @@
+node_configuration:
+  topic_name: '/zed2i/zed_node/left/image_rect_color'
+  node_name: 'bluberry_detection'
+
+object_detection:
+  model: 'YOLOV8'
+  weights_path: '/home/pqbas/catkin_ws/src/blueberry-detection-ros/weights/yolov8s_normal.pt'
+
+count_configuration:
+  tracking_flag: True
+  count_mode: 'vertical'
+  threshold_track: 320
+  direction: 'top2down'
+  
+visualization:
+  show_image: True
+
+
+  

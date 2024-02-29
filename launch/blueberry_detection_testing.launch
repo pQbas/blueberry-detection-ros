@@ -1,0 +1,13 @@
+<launch>
+  
+	<rosparam file="$(find blueberry-detection-ros)/param/robot_configuration.yaml" command="load" />
+
+	<node 
+		pkg="blueberry-detection-ros"
+		type="detection-ros.py"
+		name="detection_node"
+		output="screen"
+    >
+    </node>
+
+</launch>
