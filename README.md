@@ -28,7 +28,7 @@ Download the weights and records:
 
 Run YoloV8 for blueberry **counting** using ROS framework:
 
-### Testing locally
+<!-- ### Testing locally
 
 Records generally use zed2 topics:
 
@@ -83,7 +83,7 @@ rosrun blueberry-detection-ros detection-ros.py -model YOLOV8 \
                                                   -direction top2down \
                                                   -weights 'weights/yolov8m_best.pt'
 
-```
+``` -->
 
 ## Procedimiento
 
@@ -107,7 +107,7 @@ Save records `./scripts/test_record.sh [base_path] [today_date] [n_test] [descri
 
 ```bash
 cd ~/catkin_ws/src/blueberry-detection-ros
-./scripts/test_record.sh /zed2i/zed_node 28feb24 1 "horizontal"
+./scripts/test_record.sh /zed2i/zed_node 29feb24 1 "horizontal"
 ```
 
 
@@ -129,7 +129,7 @@ cd ~/catkin_ws/src/blueberry-detection-ros
 
 
 ### To-do:
-- [ ] Limpiar el ssd para poder realizar grabaciones.
+- [x] Limpiar el ssd para poder realizar grabaciones. (Week 2)
 - [ ] Definir las pruebas a realizar.
 - [ ] Realizar una práctica de las pruebas a realizar con el robot en campo.
 
