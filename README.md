@@ -85,7 +85,7 @@ rosrun blueberry-detection-ros detection-ros.py -model YOLOV8 \
 
 ``` -->
 
-## Procedimiento
+## Procedure:
 
 SSH conection:
 
