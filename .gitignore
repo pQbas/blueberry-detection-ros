@@ -10,3 +10,5 @@ records_
 /include/blueberry-detection-ros
 *.bag
 *.pt
+records
+/records

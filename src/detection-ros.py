@@ -36,8 +36,7 @@ def callback(msg):
     global img_pred
 
     img = get_image(msg, TOPIC_NAME)
-    img_crop = img #crop_center_square(img)
-    #img_crop = cv2.cvtColor(img_crop, cv2.COLOR_RGB2BGR)
+    img_crop = crop_center_square(img) #img
     prediction = detector.predict(img_crop, conf_thres=0.5, enable_tracking=TRACKING_FLAG)
     img_pred = detector.plot_prediction(img_crop, prediction)
 
@@ -47,25 +46,29 @@ def callback(msg):
         number_blueberries = blueberry_counter.get_number_counted()['counted']
 
     # ------ DESCRIPTION SHOWED IN PLOTT ----------
-    img_pred = attach_information_zone(img_pred)
-    write_text(img_pred, 'Detected: ', position=(20, 50), scale_font=1, thick=2, color=(255, 255, 255))
-    write_text(img_pred, str(prediction[0].boxes.xywh.shape[0]), position=(20, 100), scale_font=1, thick=2, color=(255, 255, 0))
-
-    write_text(img_pred, 'Counted: ', position=(20, 150), scale_font=1, thick=2, color=(255, 255, 255))
-    write_text(img_pred, str(number_blueberries), position=(20, 200), scale_font=1, thick=2, color=(255, 255, 0))
-
-    write_text(img_pred, 'count mode: ', position=(20, 250), scale_font=1, thick=2, color=(255, 255, 255))
-    write_text(img_pred, str(COUNT_MODE), position=(20, 300), scale_font=1, thick=2, color=(255, 255, 0))
-
-    write_text(img_pred, 'direction: ', position=(20, 350), scale_font=1, thick=2, color=(255, 255, 255))
-    write_text(img_pred, str(DIRECTION), position=(20, 400), scale_font=1, thick=2, color=(255, 255, 0))
+        
+    # YoloV8
     
-    write_text(img_pred, 'threshold: ', position=(20, 450), scale_font=1, thick=2, color=(255, 255, 255))
-    write_text(img_pred, str(THRESHOLD_TRACK), position=(20, 500), scale_font=1, thick=2, color=(255, 255, 0))
-    
-    write_text(img_pred, 'topic name: ', position=(20, 550), scale_font=1, thick=2, color=(255, 255, 255))
-    write_text(img_pred, str(TOPIC_NAME), position=(20, 600), scale_font=1, thick=2, color=(255, 255, 0))
+    # img_pred = attach_information_zone(img_pred)
+    # write_text(img_pred, 'Detected: ', position=(20, 50), scale_font=1, thick=2, color=(255, 255, 255))
+    # write_text(img_pred, str(prediction[0].boxes.xywh.shape[0]), position=(20, 100), scale_font=1, thick=2, color=(255, 255, 0))
 
+    # write_text(img_pred, 'Counted: ', position=(20, 150), scale_font=1, thick=2, color=(255, 255, 255))
+    # write_text(img_pred, str(number_blueberries), position=(20, 200), scale_font=1, thick=2, color=(255, 255, 0))
+
+    # write_text(img_pred, 'count mode: ', position=(20, 250), scale_font=1, thick=2, color=(255, 255, 255))
+    # write_text(img_pred, str(COUNT_MODE), position=(20, 300), scale_font=1, thick=2, color=(255, 255, 0))
+
+    # write_text(img_pred, 'direction: ', position=(20, 350), scale_font=1, thick=2, color=(255, 255, 255))
+    # write_text(img_pred, str(DIRECTION), position=(20, 400), scale_font=1, thick=2, color=(255, 255, 0))
+    
+    # write_text(img_pred, 'threshold: ', position=(20, 450), scale_font=1, thick=2, color=(255, 255, 255))
+    # write_text(img_pred, str(THRESHOLD_TRACK), position=(20, 500), scale_font=1, thick=2, color=(255, 255, 0))
+    
+    # write_text(img_pred, 'topic name: ', position=(20, 550), scale_font=1, thick=2, color=(255, 255, 255))
+    # write_text(img_pred, str(TOPIC_NAME), position=(20, 600), scale_font=1, thick=2, color=(255, 255, 0))
+
+   
     if SHOW_IMAGE and (prediction is not None):
         cv2.imshow('Image', img_pred)
         cv2.waitKey(1)
@@ -185,7 +188,8 @@ if __name__ == '__main__':
         ''' -------------------- Running Publisher -----------------------------'''
         r = rospy.Rate(30)
         while not rospy.is_shutdown():
-            image_pub.publish(img2msg.cv2_to_imgmsg(img_pred, "bgr8"))
+            if type(img_pred) == np.ndarray:
+                image_pub.publish(img2msg.cv2_to_imgmsg(img_pred, "bgr8"))
             r.sleep()
             
 

@@ -3,7 +3,7 @@ node_configuration:
   node_name: 'bluberry_detection'
 
 object_detection:
-  model: 'YOLOV8' #YOLOV8
+  model: 'YOLOV8'
   weights_path: '/home/pqbas/catkin_ws/src/blueberry-detection-ros/weights/yolov8m_best.pt'
 
 count_configuration:

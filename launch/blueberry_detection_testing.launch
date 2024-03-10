@@ -1,6 +1,6 @@
 <launch>
   
-	<rosparam file="$(find blueberry-detection-ros)/param/robot_configuration.yaml" command="load" />
+	<rosparam file="$(find blueberry-detection-ros)/param/yolov8_configuration.yaml" command="load" />
 
 	<node 
 		pkg="blueberry-detection-ros"
