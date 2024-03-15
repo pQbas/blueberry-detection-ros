@@ -1,0 +1,7 @@
+node_configuration:
+  topic_name: '/zed2/zed_node/right_raw/image_raw_color/compressed' #'/zed2i/zed_node/right/image_rect_color'
+  node_name: 'saveImagesFromBag'
+  folder_path: '/home/pqbas/catkin_ws/src/blueberry-detection-ros/dataset/blueberry_data'
+  date: '2023-08-23'
+  test_name: 'test2'
+

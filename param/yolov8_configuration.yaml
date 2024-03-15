@@ -1,5 +1,5 @@
 node_configuration:
-  topic_name: '/zed2i/zed_node/right/image_rect_color'
+  topic_name: '/zed2/zed_node/right/image_rect_color/compressed' #'/zed2i/zed_node/right/image_rect_color'
   node_name: 'bluberry_detection'
 
 object_detection:

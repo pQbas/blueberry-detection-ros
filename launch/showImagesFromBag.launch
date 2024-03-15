@@ -1,0 +1,16 @@
+<launch>
+  
+  	<node pkg="rosbag" type="play" name="player" output="screen" args="--clock 
+	/home/pqbas/catkin_ws/src/blueberry-detection-ros/records/zed2_rosbag_2023-09-29-11-58-00.bag -l"/>
+	
+	<rosparam file="$(find blueberry-detection-ros)/param/showImagesFromBag_conf.yaml" command="load" />
+
+	<node 
+		pkg="blueberry-detection-ros"
+		type="showImagesFromBag.py"
+		name="showImagesFromBag"
+		output="screen"
+    >
+    </node>
+	
+</launch>

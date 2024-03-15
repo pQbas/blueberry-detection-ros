@@ -1,0 +1,19 @@
+<launch>
+  
+  	<node pkg="rosbag" type="play" name="player" output="screen" args="--clock 
+	/home/pqbas/catkin_ws/src/blueberry-detection-ros/records/2023-08-23/test2.bag"/>
+	
+	<rosparam file="$(find blueberry-detection-ros)/param/saveImagesFromBag_conf.yaml" command="load" />
+
+	<node 
+		pkg="blueberry-detection-ros"
+		type="saveImagesFromBag.py"
+		name="saveImagesFromBag"
+		output="screen"
+    >
+    </node>
+	
+</launch>
+
+
+<!-- https://answers.ros.org/question/274609/is-there-a-way-to-read-from-a-text-or-yaml-file-and-pass-its-data-to-arg-tag/ -->
